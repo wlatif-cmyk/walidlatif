@@ -531,7 +531,7 @@ body {
 
 /* Education Section */
 #academics {
-    padding-bottom: 60px;
+    padding-bottom: 30px;
 }
 
 .education-container {
@@ -646,6 +646,10 @@ body {
 }
 
 /* Skills Section */
+#skills {
+    padding-top: 60px;
+}
+
 .skills-container-large {
     display: flex;
     flex-direction: column;
