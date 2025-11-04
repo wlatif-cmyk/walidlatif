@@ -361,10 +361,20 @@ body {
     pointer-events: all;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: orbitFloat 20s linear infinite;
-    animation-play-state: running;
     opacity: 0;
     --radius: 220px;
+    animation: orbitFloat 20s linear infinite 3s, planetFadeIn 1s ease-out forwards 3s;
+    animation-play-state: running;
+    animation-fill-mode: forwards;
+}
+
+@keyframes planetFadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0.4;
+    }
 }
 
 .planet.visible {
@@ -374,37 +384,37 @@ body {
 .planet:nth-child(1) {
     --radius: 200px;
     --angle: 0deg;
-    animation-delay: 2.5s;
+    animation: orbitFloat 20s linear infinite 3s, planetFadeIn 1s ease-out forwards 3s;
 }
 
 .planet:nth-child(2) {
     --radius: 250px;
     --angle: 60deg;
-    animation-delay: calc(2.5s - 3.3s);
+    animation: orbitFloat 20s linear infinite calc(3s - 3.3s), planetFadeIn 1s ease-out forwards 3s;
 }
 
 .planet:nth-child(3) {
     --radius: 220px;
     --angle: 120deg;
-    animation-delay: calc(2.5s - 6.6s);
+    animation: orbitFloat 20s linear infinite calc(3s - 6.6s), planetFadeIn 1s ease-out forwards 3s;
 }
 
 .planet:nth-child(4) {
     --radius: 280px;
     --angle: 180deg;
-    animation-delay: calc(2.5s - 10s);
+    animation: orbitFloat 20s linear infinite calc(3s - 10s), planetFadeIn 1s ease-out forwards 3s;
 }
 
 .planet:nth-child(5) {
     --radius: 240px;
     --angle: 240deg;
-    animation-delay: calc(2.5s - 13.3s);
+    animation: orbitFloat 20s linear infinite calc(3s - 13.3s), planetFadeIn 1s ease-out forwards 3s;
 }
 
 .planet:nth-child(6) {
     --radius: 260px;
     --angle: 300deg;
-    animation-delay: calc(2.5s - 16.6s);
+    animation: orbitFloat 20s linear infinite calc(3s - 16.6s), planetFadeIn 1s ease-out forwards 3s;
 }
 
 .planet-core {
