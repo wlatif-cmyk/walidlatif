@@ -530,6 +530,10 @@ body {
 }
 
 /* Education Section */
+#academics {
+    padding-bottom: 60px;
+}
+
 .education-container {
     display: flex;
     flex-direction: column;
