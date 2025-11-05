@@ -561,16 +561,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1500);
     }, 500);
     
-    // Make planets visible after entrance animation
-    setTimeout(() => {
-        const planets = document.querySelectorAll('.planet');
-        planets.forEach(planet => {
-            planet.classList.add('visible');
-        });
-    }, 3000);
 });
 
-// Floating Planets Navigation
+// Orbiting Planets Navigation
 document.addEventListener('DOMContentLoaded', function() {
     const planets = document.querySelectorAll('.planet');
     let activePlanet = null;
@@ -578,12 +571,13 @@ document.addEventListener('DOMContentLoaded', function() {
     planets.forEach(planet => {
         planet.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             const sectionId = this.getAttribute('data-section');
             const targetSection = document.getElementById(sectionId);
 
             if (targetSection) {
                 // Remove active class from previously active planet
-                if (activePlanet) {
+                if (activePlanet && activePlanet !== this) {
                     activePlanet.classList.remove('active');
                 }
 
@@ -592,77 +586,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 activePlanet = this;
 
                 // Smooth scroll to section
-                const offsetTop = targetSection.offsetTop - 80; // Account for any fixed headers
+                const offsetTop = targetSection.offsetTop - 80;
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth'
                 });
 
-                // Remove active class quickly after click (just a brief flash)
+                // Remove active class after animation
                 setTimeout(() => {
                     if (this === activePlanet) {
                         this.classList.remove('active');
                         activePlanet = null;
                     }
-                }, 500); // Remove active state after 500ms
+                }, 2000);
             }
-        });
-
-        // Trigger spin animation after clicking a planet
-        let spinTimeout = null;
-        
-        planet.addEventListener('click', function(e) {
-            // Clear any pending spin animation
-            if (spinTimeout) {
-                clearTimeout(spinTimeout);
-                spinTimeout = null;
-            }
-            
-            // Schedule spin animation after a short delay
-            spinTimeout = setTimeout(() => {
-                // Trigger spinning animation for the entire planets container
-                const planetsContainer = document.querySelector('.planets-container');
-                const allPlanets = document.querySelectorAll('.planet');
-                const delays = [0, -3.3, -6.6, -10, -13.3, -16.6];
-                
-                // Pause all planet animations
-                allPlanets.forEach((p) => {
-                    p.style.animationPlayState = 'paused';
-                });
-                
-                // Add mixing class to container to spin the whole system
-                planetsContainer.classList.add('mixing');
-                
-                // After spin animation completes, restore normal orbits
-                setTimeout(() => {
-                    planetsContainer.classList.remove('mixing');
-                    
-                    // Restore all planets to normal animation
-                    allPlanets.forEach((p, index) => {
-                        p.style.animation = 'orbitFloat 20s linear infinite';
-                        p.style.animationDelay = `${delays[index]}s`;
-                        p.style.animationPlayState = 'running';
-                    });
-                }, 1500); // 1.5 seconds for the spin animation
-                
-                spinTimeout = null;
-            }, 500); // Wait 0.5 seconds after click
         });
     });
 
-    // Update planet positions based on scroll position
+    // Hide planets and legend when scrolled past hero section
     function updatePlanetVisibility() {
         const scrollY = window.scrollY;
         const windowHeight = window.innerHeight;
         const planetsContainer = document.querySelector('.planets-container');
         
-        // Hide planets when scrolled past hero section
-        if (scrollY > windowHeight * 0.5) {
-            planetsContainer.style.opacity = '0';
-            planetsContainer.style.pointerEvents = 'none';
-        } else {
-            planetsContainer.style.opacity = '1';
-            planetsContainer.style.pointerEvents = 'auto';
+        if (planetsContainer) {
+            if (scrollY > windowHeight * 0.5) {
+                planetsContainer.style.opacity = '0';
+                planetsContainer.style.pointerEvents = 'none';
+                document.body.classList.add('scrolled');
+            } else {
+                planetsContainer.style.opacity = '1';
+                planetsContainer.style.pointerEvents = 'auto';
+                document.body.classList.remove('scrolled');
+            }
         }
     }
 

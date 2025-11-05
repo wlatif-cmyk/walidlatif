@@ -198,6 +198,7 @@ body {
 .hero-content {
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
     opacity: 0;
     transform: translateY(50px) scale(0.9);
     animation: dramaticEntrance 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, gentleFloat 6s ease-in-out infinite 2s;
@@ -317,228 +318,139 @@ body {
     letter-spacing: 0.011em;
 }
 
-/* Floating Planets */
+/* Orbiting Planets around Title */
 .planets-container {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.3);
-    width: 100%;
-    height: 100%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
     pointer-events: none;
     z-index: 2;
-    transition: transform 0.3s ease;
     opacity: 0;
-    animation: planetsEntrance 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    animation-delay: 0.5s;
+    animation: planetsEntrance 2s ease-out forwards;
+    animation-delay: 1s;
+    margin-top: -100px;
 }
 
 @keyframes planetsEntrance {
     0% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
-    }
-    50% {
-        opacity: 0.6;
-        transform: translate(-50%, -50%) scale(1.2) rotate(180deg);
+        transform: translate(-50%, -50%) scale(0.5);
     }
     100% {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1) rotate(360deg);
+        transform: translate(-50%, -50%) scale(1);
     }
-}
-
-.planets-container.mixing {
-    animation: planetsContainerSpin 1.5s ease-in-out forwards;
 }
 
 .planet {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
     pointer-events: all;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0;
-    --radius: 220px;
-    animation: orbitFloat 20s linear infinite 3s, planetFadeIn 1s ease-out forwards 3s;
-    animation-play-state: running;
-    animation-fill-mode: forwards;
-}
-
-@keyframes planetFadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 0.4;
-    }
-}
-
-.planet.visible {
-    opacity: 0.4;
-}
-
-.planet:nth-child(1) {
-    --radius: 200px;
+    --radius: 280;
     --angle: 0deg;
-    animation: orbitFloat 20s linear infinite 3s, planetFadeIn 1s ease-out forwards 3s;
+    --duration: 20s;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    animation: orbitPlanet var(--duration) linear infinite;
+    z-index: 10;
+}
+
+/* Different orbit radii and speeds for each planet */
+.planet:nth-child(1) {
+    --radius: 280;
+    --angle: 0deg;
+    --duration: 20s;
 }
 
 .planet:nth-child(2) {
-    --radius: 250px;
+    --radius: 320;
     --angle: 60deg;
-    animation: orbitFloat 20s linear infinite calc(3s - 3.3s), planetFadeIn 1s ease-out forwards 3s;
+    --duration: 25s;
 }
 
 .planet:nth-child(3) {
-    --radius: 220px;
+    --radius: 360;
     --angle: 120deg;
-    animation: orbitFloat 20s linear infinite calc(3s - 6.6s), planetFadeIn 1s ease-out forwards 3s;
+    --duration: 30s;
 }
 
 .planet:nth-child(4) {
-    --radius: 280px;
+    --radius: 300;
     --angle: 180deg;
-    animation: orbitFloat 20s linear infinite calc(3s - 10s), planetFadeIn 1s ease-out forwards 3s;
+    --duration: 22s;
 }
 
 .planet:nth-child(5) {
-    --radius: 240px;
+    --radius: 340;
     --angle: 240deg;
-    animation: orbitFloat 20s linear infinite calc(3s - 13.3s), planetFadeIn 1s ease-out forwards 3s;
+    --duration: 27s;
 }
 
 .planet:nth-child(6) {
-    --radius: 260px;
+    --radius: 380;
     --angle: 300deg;
-    animation: orbitFloat 20s linear infinite calc(3s - 16.6s), planetFadeIn 1s ease-out forwards 3s;
+    --duration: 35s;
+}
+
+@keyframes orbitPlanet {
+    0% {
+        transform: translate(-50%, -50%) rotate(var(--angle)) translateX(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1));
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(calc(var(--angle) + 360deg)) translateX(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1 - 360deg));
+    }
 }
 
 .planet-core {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), var(--planet-color));
+    background: var(--planet-color);
     box-shadow: 
         0 0 8px var(--planet-color),
         0 0 16px var(--planet-color),
-        inset -5px -5px 10px rgba(0, 0, 0, 0.2);
+        inset -2px -2px 4px rgba(0, 0, 0, 0.3);
     position: relative;
     transition: all 0.3s ease;
-    opacity: 0.6;
-    animation: planetGlowEntrance 3s ease-out forwards;
-    animation-delay: 2.5s;
-}
-
-@keyframes planetGlowEntrance {
-    0% {
-        opacity: 0;
-        transform: scale(0);
-        box-shadow: 
-            0 0 0px var(--planet-color),
-            0 0 0px var(--planet-color);
-    }
-    50% {
-        opacity: 0.8;
-        transform: scale(1.3);
-        box-shadow: 
-            0 0 30px var(--planet-color),
-            0 0 60px var(--planet-color);
-    }
-    100% {
-        opacity: 0.6;
-        transform: scale(1);
-        box-shadow: 
-            0 0 8px var(--planet-color),
-            0 0 16px var(--planet-color);
-    }
-}
-
-.planet-ring {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotateX(75deg);
-    width: 60px;
-    height: 60px;
-    border: 1px solid var(--planet-color);
-    border-radius: 50%;
-    opacity: 0.15;
-    transition: all 0.3s ease;
-}
-
-.planet:hover {
-    opacity: 0.8;
+    opacity: 1;
 }
 
 .planet:hover .planet-core,
 .planet.active .planet-core {
-    transform: scale(1.2);
+    transform: scale(1.5);
     opacity: 1;
     box-shadow: 
-        0 0 20px var(--planet-color),
-        0 0 40px var(--planet-color),
-        0 0 60px var(--planet-color),
-        0 0 80px rgba(var(--planet-color-rgb, 10, 132, 255), 0.4),
-        0 0 100px rgba(var(--planet-color-rgb, 10, 132, 255), 0.2),
-        inset -5px -5px 10px rgba(0, 0, 0, 0.2);
-    filter: drop-shadow(0 0 30px var(--planet-color));
-}
-
-.planet:hover .planet-ring,
-.planet.active .planet-ring {
-    opacity: 0.6;
-    transform: translate(-50%, -50%) rotateX(75deg) scale(1.3);
-    border-width: 2px;
-    box-shadow: 
-        0 0 15px var(--planet-color),
-        0 0 30px var(--planet-color);
-    filter: drop-shadow(0 0 20px var(--planet-color));
-}
-
-.planet.active {
-    opacity: 1;
+        0 0 12px var(--planet-color),
+        0 0 24px var(--planet-color),
+        0 0 36px var(--planet-color),
+        0 0 48px rgba(var(--planet-color-rgb), 0.5);
 }
 
 .planet.active .planet-core {
     animation: planetPulse 2s ease-in-out infinite;
 }
 
-@keyframes orbitFloat {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg) translateX(var(--radius, 200px)) rotate(0deg) translateZ(0);
-    }
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg) translateX(var(--radius, 200px)) rotate(-360deg) translateZ(0);
-    }
-}
-
 @keyframes planetPulse {
     0%, 100% {
-        transform: scale(1.2);
+        transform: scale(1.5);
         box-shadow: 
             0 0 12px var(--planet-color),
             0 0 24px var(--planet-color),
-            0 0 36px rgba(var(--planet-color-rgb, 10, 132, 255), 0.3);
+            0 0 36px var(--planet-color);
     }
     50% {
-        transform: scale(1.25);
+        transform: scale(1.6);
         box-shadow: 
             0 0 16px var(--planet-color),
             0 0 32px var(--planet-color),
-            0 0 48px rgba(var(--planet-color-rgb, 10, 132, 255), 0.4);
-    }
-}
-
-@keyframes planetsContainerSpin {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg);
+            0 0 48px var(--planet-color);
     }
 }
 
@@ -548,48 +460,81 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 24px;
-    padding: 12px 24px;
-    background: transparent;
-    border: none;
+    gap: 16px;
+    padding: 12px 20px;
+    background: rgba(28, 28, 30, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    opacity: 0.3;
-    transition: opacity 0.3s ease;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    margin-top: 40px;
 }
 
 .planets-legend.hero-legend {
-    position: absolute;
-    bottom: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 1200px;
-    margin: 0;
-    z-index: 3;
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: auto;
+    margin: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    z-index: 9999;
+}
+
+/* Only show legend when in hero section */
+body:not(.scrolled) .planets-legend.hero-legend {
+    display: flex !important;
+}
+
+body.scrolled .planets-legend.hero-legend {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .planets-legend.hero-legend {
+        bottom: 15px;
+        gap: 12px;
+        padding: 10px 16px;
+    }
 }
 
 .planets-legend:hover {
-    opacity: 0.6;
+    opacity: 1;
+    background: rgba(28, 28, 30, 0.7);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 12px;
+    gap: 6px;
+    font-size: 11px;
     color: var(--apple-text-secondary);
     opacity: 0.7;
     white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+
+.planets-legend:hover .legend-item {
+    opacity: 1;
 }
 
 .legend-planet {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: var(--planet-color);
     box-shadow: 0 0 4px var(--planet-color);
     flex-shrink: 0;
-    opacity: 0.6;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.planets-legend:hover .legend-planet {
+    opacity: 1;
+    box-shadow: 0 0 8px var(--planet-color);
 }
 
 /* Full Sections */
