@@ -41,6 +41,28 @@ body {
     position: relative;
 }
 
+/* Credit Text */
+.credit-text {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 11px;
+    color: var(--apple-text-secondary);
+    opacity: 0.5;
+    z-index: 9999;
+    pointer-events: none;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}
+
+@media (max-width: 768px) {
+    .credit-text {
+        top: 15px;
+        right: 15px;
+        font-size: 10px;
+    }
+}
+
 /* Starry night background */
 body::before {
     content: '';
