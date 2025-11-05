@@ -566,6 +566,18 @@ body.scrolled .planets-legend.hero-legend {
     transform: translateY(0);
 }
 
+/* Universal scroll animation for all text elements */
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .section-content {
     max-width: 1200px;
     margin: 0 auto;

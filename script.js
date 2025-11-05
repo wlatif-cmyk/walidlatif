@@ -125,6 +125,7 @@ const observer = new IntersectionObserver((entries) => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
             } else {
+                // Remove visible class when scrolling back up for re-animation
                 entry.target.classList.remove('visible');
             }
         });
@@ -175,6 +176,24 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             observer.observe(item);
         }, index * 100);
+    });
+    
+    // Add scroll animation to ALL text elements (headings, paragraphs, spans, etc.)
+    const textElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, li, .project-title-large, .project-description-large, .project-badge-large, .education-title-large, .education-year-large, .skill-category-title-large, .skill-tag-large, .experience-title-large, .experience-description-large, .tech-category-title-large, .tech-tag-large, .about-text-large, .contact-item-large, .resume-link');
+    
+    textElements.forEach((element, index) => {
+        // Skip elements that are already in animated containers or are in hero section
+        if (element.closest('.hero-section') || element.classList.contains('letter') || element.closest('.planets-legend')) {
+            return;
+        }
+        
+        // Add scroll-animate class
+        element.classList.add('scroll-animate');
+        
+        // Observe with staggered delay for smooth effect
+        setTimeout(() => {
+            observer.observe(element);
+        }, index * 10);
     });
     
     // Ensure About section heading reflects latest copy
