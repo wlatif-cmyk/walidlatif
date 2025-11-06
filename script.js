@@ -645,3 +645,224 @@ document.addEventListener('DOMContentLoaded', function() {
     updatePlanetVisibility();
 });
 
+// Fun Arrow Typing Animation (Repeating)
+document.addEventListener('DOMContentLoaded', function() {
+    const arrowContainer = document.querySelector('.fun-arrow-container');
+    const arrowText = document.querySelector('.arrow-text');
+    const arrowPath = document.querySelector('.arrow-path');
+    const arrowHead = document.querySelector('.arrow-head');
+    
+    if (!arrowContainer || !arrowText || !arrowPath || !arrowHead) return;
+    
+    const fullText = 'really cool guy btw';
+    
+    function resetAnimation() {
+        // Reset all elements
+        arrowContainer.classList.remove('animate');
+        arrowText.classList.remove('typing');
+        arrowText.textContent = '';
+        arrowPath.style.strokeDashoffset = '200';
+        arrowHead.style.opacity = '0';
+        arrowContainer.style.opacity = '0';
+    }
+    
+    function playAnimation() {
+        resetAnimation();
+        
+        // Force reflow
+        void arrowContainer.offsetWidth;
+        
+        // Start animation
+        arrowContainer.classList.add('animate');
+        arrowText.classList.add('typing');
+        
+        // Start typing animation when arrow path is drawn (after 1.7s total: 0.8s fade + 0.2s delay + 1.5s draw)
+        setTimeout(() => {
+            let currentIndex = 0;
+            
+            function typeNextChar() {
+                if (currentIndex < fullText.length) {
+                    arrowText.textContent = fullText.substring(0, currentIndex + 1);
+                    currentIndex++;
+                    setTimeout(typeNextChar, 80); // 80ms per character
+                }
+            }
+            
+            typeNextChar();
+        }, 1700);
+        
+        // Fade out after typing completes (1.7s + typing time + 1s display)
+        const typingTime = fullText.length * 80;
+        setTimeout(() => {
+            arrowContainer.style.opacity = '0';
+            arrowContainer.style.transition = 'opacity 0.5s ease-out';
+            setTimeout(() => {
+                arrowContainer.style.transition = '';
+            }, 500);
+        }, 1700 + typingTime + 1000);
+    }
+    
+    // Check if About section is visible
+    function checkAndPlay() {
+        const aboutSection = document.getElementById('about');
+        if (!aboutSection) return;
+        
+        const rect = aboutSection.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        
+        if (isVisible && arrowContainer.style.opacity === '0' || !arrowContainer.classList.contains('animate')) {
+            // Only play if not already animating
+            if (!arrowContainer.classList.contains('animate')) {
+                playAnimation();
+            }
+        }
+    }
+    
+    // Initial check
+    setTimeout(checkAndPlay, 1000);
+    
+    // Repeat animation every 8-10 seconds
+    function scheduleNextAnimation() {
+        const delay = 8000 + Math.random() * 2000; // 8-10 seconds
+        setTimeout(() => {
+            checkAndPlay();
+            scheduleNextAnimation();
+        }, delay);
+    }
+    
+    // Start scheduling after initial animation
+    setTimeout(scheduleNextAnimation, 9000);
+    
+    // Also check on scroll
+    window.addEventListener('scroll', checkAndPlay);
+});
+
+// Draw connecting lines for journey timeline
+document.addEventListener('DOMContentLoaded', function() {
+    const timeline = document.querySelector('.journey-timeline');
+    if (!timeline) return;
+    
+    const items = [
+        document.querySelector('.journey-item-1'),
+        document.querySelector('.journey-item-2'),
+        document.querySelector('.journey-item-3'),
+        document.querySelector('.journey-item-4')
+    ];
+    
+    if (items.some(item => !item)) return;
+    
+    function drawLines() {
+        const svg = timeline.querySelector('.journey-lines');
+        if (!svg) return;
+        
+        // Get positions of each image (center points)
+        const positions = items.map(item => {
+            const rect = item.getBoundingClientRect();
+            const timelineRect = timeline.getBoundingClientRect();
+            return {
+                x: (rect.left + rect.width / 2 - timelineRect.left) / timelineRect.width * 100,
+                y: (rect.top + rect.height / 2 - timelineRect.top) / timelineRect.height * 100
+            };
+        });
+        
+        // Create path connecting all points
+        let path = `M ${positions[0].x} ${positions[0].y}`;
+        for (let i = 1; i < positions.length; i++) {
+            const prev = positions[i - 1];
+            const curr = positions[i];
+            // Create curved path with control points
+            const midX = (prev.x + curr.x) / 2;
+            const midY = (prev.y + curr.y) / 2;
+            // Add some wiggle
+            const wiggleX = (i % 2 === 0) ? 5 : -5;
+            path += ` Q ${midX + wiggleX} ${midY} ${curr.x} ${curr.y}`;
+        }
+        
+        const line = svg.querySelector('.journey-line');
+        if (line) {
+            line.setAttribute('d', path);
+        }
+    }
+    
+    // Draw lines after images load
+    setTimeout(drawLines, 100);
+    window.addEventListener('resize', drawLines);
+});
+
+// Journey photo click descriptions
+document.addEventListener('DOMContentLoaded', function() {
+    // Type out "click on the pictures" instruction
+    const clickInstruction = document.querySelector('.click-instruction');
+    if (clickInstruction) {
+        const instructionText = 'click on the pictures';
+        clickInstruction.textContent = '';
+        clickInstruction.classList.add('typing');
+        
+        setTimeout(() => {
+            let currentIndex = 0;
+            function typeNextChar() {
+                if (currentIndex < instructionText.length) {
+                    clickInstruction.textContent = instructionText.substring(0, currentIndex + 1);
+                    currentIndex++;
+                    setTimeout(typeNextChar, 80);
+                }
+            }
+            typeNextChar();
+        }, 1000);
+    }
+    
+    // Descriptions for each image (top-left=journey-item-1, etc.)
+    const descriptions = {
+        'journey-item-1': "i liked nutella sandwiches", // top-left
+        'journey-item-2': "i grew up loving basketball, still play sometimes... let's 1v1", // second position
+        'journey-item-3': "idk how i didn't make provincials", // third position
+        'journey-item-4': "i've been getting into building more personal arduino projects, ill add those to here soon..." // fourth position
+    };
+    
+    // Add click handlers to each journey card
+    const journeyItems = document.querySelectorAll('.journey-item');
+    
+    journeyItems.forEach(item => {
+        const card = item.querySelector('.journey-card');
+        const cardText = item.querySelector('.journey-card-text');
+        
+        if (!card || !cardText) return;
+        
+        card.addEventListener('click', function() {
+            const itemClass = Array.from(item.classList).find(cls => cls.startsWith('journey-item-'));
+            if (!itemClass) return;
+            
+            const description = descriptions[itemClass];
+            if (!description) return;
+            
+            // Toggle flip
+            const isFlipped = card.classList.contains('flipped');
+            
+            if (isFlipped) {
+                // Flip back to front
+                card.classList.remove('flipped');
+                cardText.classList.remove('typing');
+                cardText.textContent = '';
+            } else {
+                // Flip to back and type description
+                card.classList.add('flipped');
+                cardText.classList.add('typing');
+                cardText.textContent = '';
+                
+                // Type out description after flip animation starts
+                setTimeout(() => {
+                    let currentIndex = 0;
+                    function typeNextChar() {
+                        if (currentIndex < description.length) {
+                            cardText.textContent = description.substring(0, currentIndex + 1);
+                            currentIndex++;
+                            setTimeout(typeNextChar, 50);
+                        }
+                    }
+                    typeNextChar();
+                }, 300);
+            }
+        });
+    });
+});
+

@@ -1173,6 +1173,7 @@ body.scrolled .planets-legend.hero-legend {
 
 .photo-container-large {
     flex: 0 0 300px;
+    position: relative;
 }
 
 .photo-label-large {
@@ -1256,6 +1257,120 @@ body.scrolled .planets-legend.hero-legend {
     overflow: hidden;
 }
 
+/* Fun Arrow Container */
+.fun-arrow-container {
+    position: absolute;
+    top: -160px;
+    left: 50%;
+    transform: translateX(-110px); /* Move to the left using pixels */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    z-index: 10;
+    pointer-events: none;
+    width: 200px; /* Fixed width to prevent shifting */
+}
+
+.fun-arrow-container.animate {
+    animation: fadeInArrow 0.8s ease-out forwards;
+}
+
+.fun-arrow {
+    width: 80px;
+    height: 120px;
+    color: var(--apple-text-primary);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    flex-shrink: 0; /* Prevent arrow from shrinking */
+    position: relative; /* Keep arrow in place */
+    margin: 0 auto; /* Center the arrow */
+    transform-origin: 40px 60px; /* Center of arrow (half width, half height) */
+}
+
+.arrow-path {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+}
+
+.fun-arrow-container.animate .arrow-path {
+    animation: drawArrow 1.5s ease-out 0.2s forwards;
+}
+
+.arrow-head {
+    opacity: 0;
+    transform-origin: center;
+}
+
+.fun-arrow-container.animate .arrow-head {
+    animation: fadeInHead 0.3s ease-out 1.5s forwards, arrowBounce 1s ease-in-out 1.8s infinite;
+}
+
+.arrow-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--apple-text-secondary);
+    white-space: nowrap;
+    opacity: 1;
+    min-height: 20px;
+    text-align: center;
+    width: 100%; /* Take full width of container */
+    display: block;
+    position: relative;
+}
+
+.arrow-text.typing::after {
+    content: '|';
+    animation: blinkCursor 1s infinite;
+    margin-left: 2px;
+}
+
+@keyframes fadeInArrow {
+    from {
+        opacity: 0;
+        transform: translateX(-110px) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-110px) translateY(0);
+    }
+}
+
+@keyframes drawArrow {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fadeInHead {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes arrowBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(3px);
+    }
+}
+
+@keyframes blinkCursor {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
 .about-text-container {
     flex: 1;
     min-width: 400px;
@@ -1267,6 +1382,245 @@ body.scrolled .planets-legend.hero-legend {
     line-height: 1.5;
     margin-bottom: 60px;
     max-width: 700px;
+}
+
+/* Journey Star Link */
+.journey-star-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    color: var(--apple-text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.journey-star-link:hover {
+    color: var(--apple-text-primary);
+    transform: translateY(-2px);
+}
+
+.journey-star-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--apple-text-primary);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    animation: starFloat 3s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+.journey-star-text {
+    font-size: 18px;
+    color: inherit;
+    font-weight: 500;
+}
+
+@keyframes starFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-5px) rotate(5deg);
+    }
+}
+
+/* Back Navigation */
+.back-nav {
+    position: fixed;
+    top: 80px;
+    left: 40px;
+    z-index: 100;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--apple-text-secondary);
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--apple-text-primary);
+    transform: translateX(-5px);
+}
+
+/* Journey Greeting */
+.journey-greeting {
+    font-size: 16px;
+    color: var(--apple-text-secondary);
+    margin-bottom: 20px;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+/* Click Instruction */
+.click-instruction {
+    font-size: 16px;
+    color: var(--apple-text-secondary);
+    margin-bottom: 40px;
+    font-weight: 400;
+    opacity: 0.7;
+    min-height: 20px;
+}
+
+.click-instruction.typing::after {
+    content: '|';
+    animation: blinkCursor 1s infinite;
+    margin-left: 2px;
+}
+
+
+/* Journey Timeline */
+.journey-timeline {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    padding: 60px 20px;
+}
+
+.journey-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.journey-line {
+    stroke: var(--apple-text-primary);
+    stroke-width: 2;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawJourneyLine 2.5s ease-out forwards;
+}
+
+@keyframes drawJourneyLine {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes wigglyLine {
+    0%, 100% {
+        filter: drop-shadow(0 0 0px currentColor);
+    }
+    50% {
+        filter: drop-shadow(1px 1px 2px currentColor);
+    }
+}
+
+.journey-item {
+    position: absolute;
+    z-index: 10;
+    perspective: 1000px;
+}
+
+.journey-card {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer;
+}
+
+.journey-card.flipped {
+    transform: rotateY(180deg);
+}
+
+.journey-card-front,
+.journey-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.journey-card:hover .journey-card-front,
+.journey-card:hover .journey-card-back {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.journey-card-back {
+    transform: rotateY(180deg);
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.journey-item-1 {
+    top: 8%;
+    left: 8%;
+}
+
+.journey-item-2 {
+    top: 32%;
+    left: 38%;
+}
+
+.journey-item-3 {
+    top: 56%;
+    left: 12%;
+}
+
+.journey-item-4 {
+    top: 80%;
+    left: 42%;
+}
+
+.journey-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.journey-card-text {
+    font-size: 16px;
+    color: var(--apple-text-primary);
+    line-height: 1.5;
+    margin: 0;
+    text-align: center;
+    min-height: 20px;
+}
+
+.journey-card-text.typing::after {
+    content: '|';
+    animation: blinkCursor 1s infinite;
+    margin-left: 2px;
+}
+
+
+/* Extended Content */
+.extended-content {
+    max-width: 900px;
+}
+
+.extended-text {
+    font-size: 24px;
+    color: var(--apple-text-secondary);
+    line-height: 1.5;
+    margin-bottom: 40px;
 }
 
 .contact-container-large {
@@ -1329,6 +1683,30 @@ body.scrolled .planets-legend.hero-legend {
     background: rgba(255, 255, 255, 0.04);
     opacity: 1;
     transform: translateY(-1px);
+}
+
+/* LinkedIn Logo */
+.linkedin-logo {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 8px;
+    color: var(--apple-text-secondary);
+    opacity: 0.4;
+    transition: opacity 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+}
+
+.linkedin-logo:hover {
+    opacity: 0.8;
+    color: var(--apple-text-primary);
+}
+
+.linkedin-logo svg {
+    width: 24px;
+    height: 24px;
+    display: block;
 }
 
 /* Animations */
@@ -1517,6 +1895,25 @@ body.scrolled .planets-legend.hero-legend {
     .photo-label-large {
         width: 100%;
         max-width: 300px;
+    }
+
+    .fun-arrow-container {
+        top: -140px;
+    }
+
+    .fun-arrow {
+        width: 60px;
+        height: 100px;
+    }
+
+    .arrow-text {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .fun-arrow-container {
+        display: none; /* Hide on very small screens */
     }
 }
 
