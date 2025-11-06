@@ -41,7 +41,7 @@ body {
     position: relative;
 }
 
-/* Credit Text */
+/* credit text */
 .credit-text {
     position: fixed;
     top: 20px;
@@ -63,7 +63,7 @@ body {
     }
 }
 
-/* Starry night background */
+/* starry night background */
 body::before {
     content: '';
     position: fixed;
@@ -80,7 +80,7 @@ body::before {
     opacity: 0.4;
 }
 
-/* Stars layer - much more starry */
+/* stars layer */
 .stars-container {
     position: fixed;
     top: 0;
@@ -122,7 +122,7 @@ body::before {
     }
 }
 
-/* Shooting star cursor */
+/* shooting star cursor */
 * {
     cursor: none !important;
 }
@@ -170,7 +170,7 @@ body {
     filter: blur(0.5px);
 }
 
-/* Fog cursor follower - much more subtle */
+/* fog cursor follower */
 .cursor-fog {
     position: fixed;
     width: 400px;
@@ -191,7 +191,7 @@ body {
     opacity: 0.4;
 }
 
-/* Hero Section */
+/* hero section */
 .hero-section {
     min-height: 100vh;
     display: flex;
@@ -274,7 +274,7 @@ body {
     animation: intenseBreath 3s ease-in-out infinite;
 }
 
-/* Letter animation styles */
+/* letter animation styles */
 .hero-title .letter {
     display: inline-block;
     position: relative;
@@ -340,7 +340,7 @@ body {
     letter-spacing: 0.011em;
 }
 
-/* Orbiting Planets around Title */
+/* orbiting planets around title */
 .planets-container {
     position: absolute;
     top: 50%;
@@ -384,7 +384,7 @@ body {
     z-index: 10;
 }
 
-/* Different orbit radii and speeds for each planet */
+/* different orbit radii and speeds for each planet */
 .planet:nth-child(1) {
     --radius: 280;
     --angle: 0deg;
@@ -476,7 +476,7 @@ body {
     }
 }
 
-/* Planets Legend */
+/* planets legend */
 .planets-legend {
     display: flex;
     flex-wrap: wrap;
@@ -505,7 +505,7 @@ body {
     z-index: 9999;
 }
 
-/* Only show legend when in hero section */
+/* only show legend when in hero section */
 body:not(.scrolled) .planets-legend.hero-legend {
     display: flex !important;
 }
@@ -559,7 +559,7 @@ body.scrolled .planets-legend.hero-legend {
     box-shadow: 0 0 8px var(--planet-color);
 }
 
-/* Full Sections */
+/* full sections */
 .full-section {
     min-height: 100vh;
     padding: 120px 20px;
@@ -588,7 +588,7 @@ body.scrolled .planets-legend.hero-legend {
     transform: translateY(0);
 }
 
-/* Universal scroll animation for all text elements */
+/* universal scroll animation for all text elements */
 .scroll-animate {
     opacity: 0;
     transform: translateY(30px);
@@ -637,7 +637,7 @@ body.scrolled .planets-legend.hero-legend {
     animation: intenseBreath 3s ease-in-out infinite;
 }
 
-/* Projects Section */
+/* projects section */
 .projects-container {
     display: flex;
     flex-direction: column;
@@ -813,7 +813,7 @@ body.scrolled .planets-legend.hero-legend {
     background: rgba(255, 69, 58, 0.2);
 }
 
-/* Education Section */
+/* education section */
 #academics {
     padding-bottom: 20px;
 }
@@ -929,7 +929,7 @@ body.scrolled .planets-legend.hero-legend {
     border: 1px solid rgba(48, 209, 88, 0.3);
 }
 
-/* Skills Section */
+/* skills section */
 #skills {
     padding-top: 40px;
 }
@@ -985,7 +985,7 @@ body.scrolled .planets-legend.hero-legend {
     opacity: 1;
 }
 
-/* Experience Section */
+/* experience section */
 .experience-container-large {
     display: flex;
     flex-direction: column;
@@ -1060,7 +1060,7 @@ body.scrolled .planets-legend.hero-legend {
     max-width: 900px;
 }
 
-/* Tech Stack Section */
+/* tech stack section */
 .tech-stack-container {
     display: flex;
     flex-direction: column;
@@ -1106,7 +1106,7 @@ body.scrolled .planets-legend.hero-legend {
     opacity: 1;
 }
 
-/* Certifications Section */
+/* certifications section */
 .cert-container-large {
     display: flex;
     flex-direction: column;
@@ -1159,7 +1159,7 @@ body.scrolled .planets-legend.hero-legend {
     color: var(--apple-text-secondary);
 }
 
-/* About Section */
+/* about section */
 .about-section-full {
     padding-bottom: 120px;
 }
@@ -1257,12 +1257,12 @@ body.scrolled .planets-legend.hero-legend {
     overflow: hidden;
 }
 
-/* Fun Arrow Container */
+/* fun arrow container */
 .fun-arrow-container {
     position: absolute;
     top: -160px;
     left: 50%;
-    transform: translateX(-110px); /* Move to the left using pixels */
+    transform: translateX(-110px); /* move to the left using pixels */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1270,7 +1270,7 @@ body.scrolled .planets-legend.hero-legend {
     opacity: 0;
     z-index: 10;
     pointer-events: none;
-    width: 200px; /* Fixed width to prevent shifting */
+    width: 200px; /* fixed width to prevent shifting */
 }
 
 .fun-arrow-container.animate {
@@ -1282,10 +1282,10 @@ body.scrolled .planets-legend.hero-legend {
     height: 120px;
     color: var(--apple-text-primary);
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    flex-shrink: 0; /* Prevent arrow from shrinking */
-    position: relative; /* Keep arrow in place */
-    margin: 0 auto; /* Center the arrow */
-    transform-origin: 40px 60px; /* Center of arrow (half width, half height) */
+    flex-shrink: 0; /* prevent arrow from shrinking */
+    position: relative; /* keep arrow in place */
+    margin: 0 auto; /* center the arrow */
+    transform-origin: 40px 60px; /* center of arrow (half width, half height) */
 }
 
 .arrow-path {
@@ -1314,7 +1314,7 @@ body.scrolled .planets-legend.hero-legend {
     opacity: 1;
     min-height: 20px;
     text-align: center;
-    width: 100%; /* Take full width of container */
+    width: 100%; /* take full width of container */
     display: block;
     position: relative;
 }
@@ -1384,7 +1384,7 @@ body.scrolled .planets-legend.hero-legend {
     max-width: 700px;
 }
 
-/* Journey Star Link */
+/* journey star link */
 .journey-star-link {
     display: inline-flex;
     align-items: center;
@@ -1427,7 +1427,7 @@ body.scrolled .planets-legend.hero-legend {
     }
 }
 
-/* Back Navigation */
+/* back navigation */
 .back-nav {
     position: fixed;
     top: 80px;
@@ -1451,7 +1451,7 @@ body.scrolled .planets-legend.hero-legend {
     transform: translateX(-5px);
 }
 
-/* Journey Greeting */
+/* journey greeting */
 .journey-greeting {
     font-size: 16px;
     color: var(--apple-text-secondary);
@@ -1460,7 +1460,7 @@ body.scrolled .planets-legend.hero-legend {
     opacity: 0.8;
 }
 
-/* Click Instruction */
+/* click instruction */
 .click-instruction {
     font-size: 16px;
     color: var(--apple-text-secondary);
@@ -1477,7 +1477,7 @@ body.scrolled .planets-legend.hero-legend {
 }
 
 
-/* Journey Timeline */
+/* journey timeline */
 .journey-timeline {
     position: relative;
     width: 100%;
@@ -1611,7 +1611,7 @@ body.scrolled .planets-legend.hero-legend {
 }
 
 
-/* Extended Content */
+/* extended content */
 .extended-content {
     max-width: 900px;
 }
@@ -1685,7 +1685,7 @@ body.scrolled .planets-legend.hero-legend {
     transform: translateY(-1px);
 }
 
-/* LinkedIn Logo */
+/* linkedin logo */
 .linkedin-logo {
     display: inline-block;
     margin-top: 30px;
@@ -1709,7 +1709,7 @@ body.scrolled .planets-legend.hero-legend {
     display: block;
 }
 
-/* Animations */
+/* animations */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -1783,7 +1783,7 @@ body.scrolled .planets-legend.hero-legend {
     }
 }
 
-/* Shooting Star */
+/* shooting star */
 .shooting-star {
     position: fixed;
     top: 20%;
@@ -1842,7 +1842,7 @@ body.scrolled .planets-legend.hero-legend {
     animation: shootStar var(--star-duration, 2s) ease-out forwards;
 }
 
-/* Responsive Design */
+/* responsive design */
 @media (max-width: 768px) {
     .hero-title {
         font-size: 64px;
@@ -1913,7 +1913,7 @@ body.scrolled .planets-legend.hero-legend {
 
 @media (max-width: 600px) {
     .fun-arrow-container {
-        display: none; /* Hide on very small screens */
+        display: none; /* hide on very small screens */
     }
 }
 
