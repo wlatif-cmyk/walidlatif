@@ -1685,10 +1685,17 @@ body.scrolled .planets-legend.hero-legend {
     transform: translateY(-1px);
 }
 
+/* social links container */
+.social-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+}
+
 /* linkedin logo */
 .linkedin-logo {
     display: inline-block;
-    margin-top: 30px;
     padding: 8px;
     color: var(--apple-text-secondary);
     opacity: 0.4;
@@ -1704,6 +1711,29 @@ body.scrolled .planets-legend.hero-legend {
 }
 
 .linkedin-logo svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+/* spotify logo */
+.spotify-logo {
+    display: inline-block;
+    padding: 8px;
+    color: var(--apple-text-secondary);
+    opacity: 0.4;
+    transition: opacity 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+}
+
+.spotify-logo:hover {
+    opacity: 0.8;
+    color: var(--apple-text-primary);
+}
+
+.spotify-logo svg {
     width: 24px;
     height: 24px;
     display: block;
