@@ -472,7 +472,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// letter floating animation
+// letter hover animation
 document.addEventListener('DOMContentLoaded', function() {
     const heroTitle = document.getElementById('hero-title');
     if (!heroTitle) return;
@@ -487,70 +487,6 @@ document.addEventListener('DOMContentLoaded', function() {
         span.textContent = text[i] === ' ' ? '\u00A0' : text[i]; // non-breaking space
         heroTitle.appendChild(span);
     }
-    
-    const letters = heroTitle.querySelectorAll('.letter');
-    
-    // trigger floating animation on a random letter
-    function triggerFloatingAnimation() {
-        // only animate non-space letters
-        const nonSpaceLetters = Array.from(letters).filter((letter) => {
-            return letter.textContent.trim() !== '';
-        });
-        
-        if (nonSpaceLetters.length < 2) return; // need at least 2 letters
-        
-        // pick a random letter (not first or last)
-        const randomIndex = Math.floor(Math.random() * (nonSpaceLetters.length - 2)) + 1;
-        const floatingLetter = nonSpaceLetters[randomIndex];
-        
-        // find adjacent letter (prefer left, can be right if first)
-        let adjacentLetter = null;
-        const floatingIndex = Array.from(letters).indexOf(floatingLetter);
-        
-        // try to find left neighbor first
-        for (let i = floatingIndex - 1; i >= 0; i--) {
-            if (letters[i].textContent.trim() !== '') {
-                adjacentLetter = letters[i];
-                break;
-            }
-        }
-        
-        // if no left neighbor, find right neighbor
-        if (!adjacentLetter) {
-            for (let i = floatingIndex + 1; i < letters.length; i++) {
-                if (letters[i].textContent.trim() !== '') {
-                    adjacentLetter = letters[i];
-                    break;
-                }
-            }
-        }
-        
-        if (!adjacentLetter) return;
-        
-        // trigger animations
-        floatingLetter.classList.add('floating');
-        adjacentLetter.classList.add('pulling');
-        
-        // remove animation classes after animation completes
-        setTimeout(() => {
-            floatingLetter.classList.remove('floating');
-            adjacentLetter.classList.remove('pulling');
-        }, 1500);
-    }
-    
-    // trigger animation randomly every 4-8 seconds
-    function scheduleNextAnimation() {
-        const delay = 4000 + Math.random() * 4000; // 4-8 seconds
-        setTimeout(() => {
-            triggerFloatingAnimation();
-            scheduleNextAnimation(); // schedule next animation
-        }, delay);
-    }
-    
-    // start first animation after short delay
-    setTimeout(() => {
-        scheduleNextAnimation();
-    }, 2000);
 });
 
 // dramatic opening animation

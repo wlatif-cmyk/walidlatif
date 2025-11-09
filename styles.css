@@ -274,11 +274,11 @@ body {
     animation: intenseBreath 3s ease-in-out infinite;
 }
 
-/* letter animation styles */
+/* letter hover animation styles */
 .hero-title .letter {
     display: inline-block;
     position: relative;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     background: linear-gradient(135deg, 
         rgba(255, 255, 255, 0.95) 0%,
         rgba(255, 255, 255, 0.9) 50%,
@@ -289,48 +289,11 @@ body {
     filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.19)) 
             drop-shadow(0 0 8px rgba(255, 255, 255, 0.114))
             drop-shadow(0 2px 4px rgba(255, 255, 255, 0.095));
+    cursor: pointer;
 }
 
-.hero-title .letter.floating {
-    animation: floatAway 1.5s ease-in-out;
-}
-
-.hero-title .letter.pulling {
-    animation: pullLetter 1.5s ease-in-out;
-}
-
-@keyframes floatAway {
-    0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-    }
-    30% {
-        transform: translate(20px, -40px) scale(1.1);
-        opacity: 0.8;
-    }
-    60% {
-        transform: translate(20px, -40px) scale(1.1);
-        opacity: 0.8;
-    }
-    100% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-    }
-}
-
-@keyframes pullLetter {
-    0% {
-        transform: translate(0, 0) scale(1);
-    }
-    30% {
-        transform: translate(15px, -10px) scale(1.05);
-    }
-    60% {
-        transform: translate(15px, -10px) scale(1.05);
-    }
-    100% {
-        transform: translate(0, 0) scale(1);
-    }
+.hero-title .letter:hover {
+    transform: translateY(-10px) scale(1.1);
 }
 
 .hero-subtitle {
