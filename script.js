@@ -475,10 +475,18 @@ document.addEventListener('DOMContentLoaded', function() {
 // letter hover animation
 document.addEventListener('DOMContentLoaded', function() {
     const heroTitle = document.getElementById('hero-title');
-    if (!heroTitle) return;
+    if (!heroTitle) {
+        console.warn('Hero title element not found');
+        return;
+    }
     
     // wrap each letter in a span
-    const text = heroTitle.textContent;
+    const text = heroTitle.textContent.trim();
+    if (!text) {
+        console.warn('Hero title has no text content');
+        return;
+    }
+    
     heroTitle.innerHTML = '';
     
     for (let i = 0; i < text.length; i++) {
@@ -487,6 +495,8 @@ document.addEventListener('DOMContentLoaded', function() {
         span.textContent = text[i] === ' ' ? '\u00A0' : text[i]; // non-breaking space
         heroTitle.appendChild(span);
     }
+    
+    console.log('Letter wrapping complete. Total letters:', heroTitle.querySelectorAll('.letter').length);
 });
 
 // dramatic opening animation

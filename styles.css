@@ -268,11 +268,13 @@ body {
         0 0 16px rgba(255, 255, 255, 0.095),
         0 2px 4px rgba(255, 255, 255, 0.114);
     animation: calmBreath 8s ease-in-out infinite;
+    transform-style: preserve-3d;
 }
 
 .hero-title:hover {
     animation: intenseBreath 3s ease-in-out infinite;
 }
+
 
 /* letter hover animation styles */
 .hero-title .letter {
@@ -290,10 +292,13 @@ body {
             drop-shadow(0 0 8px rgba(255, 255, 255, 0.114))
             drop-shadow(0 2px 4px rgba(255, 255, 255, 0.095));
     cursor: pointer;
+    transform-origin: center bottom;
+    will-change: transform;
 }
 
 .hero-title .letter:hover {
     transform: translateY(-10px) scale(1.1);
+    z-index: 10;
 }
 
 .hero-subtitle {
