@@ -1733,31 +1733,6 @@ body.scrolled .planets-legend.hero-legend {
 }
 
 /* music symbols animation */
-.music-symbol {
-    position: fixed;
-    pointer-events: none;
-    font-size: 18px;
-    color: var(--apple-text-primary);
-    opacity: 1;
-    z-index: 10000;
-    transform: translate(-50%, -50%);
-    transition: opacity 3.5s ease-out, transform 3.5s ease-out;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-/* briefcase/resume symbols animation */
-.business-symbol {
-    position: fixed;
-    pointer-events: none;
-    font-size: 18px;
-    color: var(--apple-text-primary);
-    opacity: 1;
-    z-index: 10000;
-    transform: translate(-50%, -50%);
-    transition: opacity 3.5s ease-out, transform 3.5s ease-out;
-    filter: grayscale(100%) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-}
-
 /* animations */
 @keyframes fadeInUp {
     from {
