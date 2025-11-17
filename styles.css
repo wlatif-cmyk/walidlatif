@@ -1686,6 +1686,22 @@ body.scrolled .planets-legend.hero-legend {
     color: var(--apple-text-primary);
 }
 
+.github-logo {
+    display: inline-block;
+    padding: 8px;
+    color: var(--apple-text-secondary);
+    opacity: 0.4;
+    transition: opacity 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+}
+
+.github-logo:hover {
+    opacity: 0.8;
+    color: var(--apple-text-primary);
+}
+
 .linkedin-logo svg {
     width: 24px;
     height: 24px;
