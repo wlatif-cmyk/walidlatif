@@ -791,7 +791,8 @@ body.scrolled .planets-legend.hero-legend {
 
 /* education section */
 #academics {
-    padding-bottom: 20px;
+    padding-bottom: 250px;
+    min-height: auto;
 }
 
 .education-container {
