@@ -337,8 +337,8 @@ body {
 
 .planet {
     position: absolute;
-    width: 50px;
-    height: 50px;
+    width: 90px;
+    height: 90px;
     pointer-events: all;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -407,8 +407,8 @@ body {
 }
 
 .planet-core {
-    width: 26px;
-    height: 26px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background: var(--planet-color);
     box-shadow: 
@@ -422,7 +422,7 @@ body {
 
 .planet:hover .planet-core,
 .planet.active .planet-core {
-    transform: scale(2.5);
+    transform: scale(1.4);
     opacity: 1;
     box-shadow: 
         0 0 16px var(--planet-color),
@@ -437,14 +437,14 @@ body {
 
 @keyframes planetPulse {
     0%, 100% {
-        transform: scale(2.5);
+        transform: scale(1.4);
         box-shadow: 
             0 0 16px var(--planet-color),
             0 0 32px var(--planet-color),
             0 0 48px var(--planet-color);
     }
     50% {
-        transform: scale(2.7);
+        transform: scale(1.5);
         box-shadow: 
             0 0 20px var(--planet-color),
             0 0 40px var(--planet-color),
