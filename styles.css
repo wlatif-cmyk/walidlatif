@@ -458,13 +458,13 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 16px;
-    padding: 12px 20px;
-    background: rgba(28, 28, 30, 0.15);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    opacity: 0.6;
+    gap: 24px;
+    padding: 16px 28px;
+    background: rgba(28, 28, 30, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    opacity: 0.7;
     transition: all 0.3s ease;
     margin-top: 40px;
 }
@@ -508,7 +508,7 @@ body.scrolled .planets-legend.hero-legend {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 11px;
+    font-size: 13px;
     color: var(--apple-text-secondary);
     opacity: 0.7;
     white-space: nowrap;
@@ -520,8 +520,8 @@ body.scrolled .planets-legend.hero-legend {
 }
 
 .legend-planet {
-    width: 7px;
-    height: 7px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: var(--planet-color);
     box-shadow: 0 0 4px var(--planet-color);
