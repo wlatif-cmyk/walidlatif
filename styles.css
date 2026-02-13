@@ -41,7 +41,29 @@ body {
     position: relative;
 }
 
-/* Starry night background */
+/* credit text */
+.credit-text {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 11px;
+    color: var(--apple-text-secondary);
+    opacity: 0.5;
+    z-index: 9999;
+    pointer-events: none;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}
+
+@media (max-width: 768px) {
+    .credit-text {
+        top: 15px;
+        right: 15px;
+        font-size: 10px;
+    }
+}
+
+/* starry night background */
 body::before {
     content: '';
     position: fixed;
@@ -58,7 +80,7 @@ body::before {
     opacity: 0.4;
 }
 
-/* Stars layer - much more starry */
+/* stars layer */
 .stars-container {
     position: fixed;
     top: 0;
@@ -100,7 +122,7 @@ body::before {
     }
 }
 
-/* Shooting star cursor */
+/* shooting star cursor */
 * {
     cursor: none !important;
 }
@@ -148,7 +170,7 @@ body {
     filter: blur(0.5px);
 }
 
-/* Fog cursor follower - much more subtle */
+/* fog cursor follower */
 .cursor-fog {
     position: fixed;
     width: 400px;
@@ -169,7 +191,7 @@ body {
     opacity: 0.4;
 }
 
-/* Hero Section */
+/* hero section */
 .hero-section {
     min-height: 100vh;
     display: flex;
@@ -198,6 +220,7 @@ body {
 .hero-content {
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
     opacity: 0;
     transform: translateY(50px) scale(0.9);
     animation: dramaticEntrance 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, gentleFloat 6s ease-in-out infinite 2s;
@@ -245,17 +268,19 @@ body {
         0 0 16px rgba(255, 255, 255, 0.095),
         0 2px 4px rgba(255, 255, 255, 0.114);
     animation: calmBreath 8s ease-in-out infinite;
+    transform-style: preserve-3d;
 }
 
 .hero-title:hover {
     animation: intenseBreath 3s ease-in-out infinite;
 }
 
-/* Letter animation styles */
+
+/* letter hover animation styles */
 .hero-title .letter {
     display: inline-block;
     position: relative;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     background: linear-gradient(135deg, 
         rgba(255, 255, 255, 0.95) 0%,
         rgba(255, 255, 255, 0.9) 50%,
@@ -266,48 +291,14 @@ body {
     filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.19)) 
             drop-shadow(0 0 8px rgba(255, 255, 255, 0.114))
             drop-shadow(0 2px 4px rgba(255, 255, 255, 0.095));
+    cursor: pointer;
+    transform-origin: center bottom;
+    will-change: transform;
 }
 
-.hero-title .letter.floating {
-    animation: floatAway 1.5s ease-in-out;
-}
-
-.hero-title .letter.pulling {
-    animation: pullLetter 1.5s ease-in-out;
-}
-
-@keyframes floatAway {
-    0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-    }
-    30% {
-        transform: translate(20px, -40px) scale(1.1);
-        opacity: 0.8;
-    }
-    60% {
-        transform: translate(20px, -40px) scale(1.1);
-        opacity: 0.8;
-    }
-    100% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-    }
-}
-
-@keyframes pullLetter {
-    0% {
-        transform: translate(0, 0) scale(1);
-    }
-    30% {
-        transform: translate(15px, -10px) scale(1.05);
-    }
-    60% {
-        transform: translate(15px, -10px) scale(1.05);
-    }
-    100% {
-        transform: translate(0, 0) scale(1);
-    }
+.hero-title .letter:hover {
+    transform: translateY(-10px) scale(1.1);
+    z-index: 10;
 }
 
 .hero-subtitle {
@@ -317,282 +308,234 @@ body {
     letter-spacing: 0.011em;
 }
 
-/* Floating Planets */
+/* orbiting planets around title */
 .planets-container {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.3);
-    width: 100%;
-    height: 100%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
     pointer-events: none;
     z-index: 2;
-    transition: transform 0.3s ease;
     opacity: 0;
-    animation: planetsEntrance 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    animation-delay: 0.5s;
+    animation: planetsEntrance 2s ease-out forwards;
+    animation-delay: 1s;
+    margin-top: -100px;
 }
 
 @keyframes planetsEntrance {
     0% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
-    }
-    50% {
-        opacity: 0.6;
-        transform: translate(-50%, -50%) scale(1.2) rotate(180deg);
+        transform: translate(-50%, -50%) scale(0.5);
     }
     100% {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1) rotate(360deg);
+        transform: translate(-50%, -50%) scale(1);
     }
-}
-
-.planets-container.mixing {
-    animation: planetsContainerSpin 1.5s ease-in-out forwards;
 }
 
 .planet {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     pointer-events: all;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0;
-    --radius: 220px;
-    animation: orbitFloat 20s linear infinite 3s, planetFadeIn 1s ease-out forwards 3s;
-    animation-play-state: running;
-    animation-fill-mode: forwards;
-}
-
-@keyframes planetFadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 0.4;
-    }
-}
-
-.planet.visible {
-    opacity: 0.4;
-}
-
-.planet:nth-child(1) {
-    --radius: 200px;
+    --radius: 280;
     --angle: 0deg;
-    animation: orbitFloat 20s linear infinite 3s, planetFadeIn 1s ease-out forwards 3s;
-}
-
-.planet:nth-child(2) {
-    --radius: 250px;
-    --angle: 60deg;
-    animation: orbitFloat 20s linear infinite calc(3s - 3.3s), planetFadeIn 1s ease-out forwards 3s;
-}
-
-.planet:nth-child(3) {
-    --radius: 220px;
-    --angle: 120deg;
-    animation: orbitFloat 20s linear infinite calc(3s - 6.6s), planetFadeIn 1s ease-out forwards 3s;
-}
-
-.planet:nth-child(4) {
-    --radius: 280px;
-    --angle: 180deg;
-    animation: orbitFloat 20s linear infinite calc(3s - 10s), planetFadeIn 1s ease-out forwards 3s;
-}
-
-.planet:nth-child(5) {
-    --radius: 240px;
-    --angle: 240deg;
-    animation: orbitFloat 20s linear infinite calc(3s - 13.3s), planetFadeIn 1s ease-out forwards 3s;
-}
-
-.planet:nth-child(6) {
-    --radius: 260px;
-    --angle: 300deg;
-    animation: orbitFloat 20s linear infinite calc(3s - 16.6s), planetFadeIn 1s ease-out forwards 3s;
-}
-
-.planet-core {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), var(--planet-color));
-    box-shadow: 
-        0 0 8px var(--planet-color),
-        0 0 16px var(--planet-color),
-        inset -5px -5px 10px rgba(0, 0, 0, 0.2);
-    position: relative;
-    transition: all 0.3s ease;
-    opacity: 0.6;
-    animation: planetGlowEntrance 3s ease-out forwards;
-    animation-delay: 2.5s;
-}
-
-@keyframes planetGlowEntrance {
-    0% {
-        opacity: 0;
-        transform: scale(0);
-        box-shadow: 
-            0 0 0px var(--planet-color),
-            0 0 0px var(--planet-color);
-    }
-    50% {
-        opacity: 0.8;
-        transform: scale(1.3);
-        box-shadow: 
-            0 0 30px var(--planet-color),
-            0 0 60px var(--planet-color);
-    }
-    100% {
-        opacity: 0.6;
-        transform: scale(1);
-        box-shadow: 
-            0 0 8px var(--planet-color),
-            0 0 16px var(--planet-color);
-    }
-}
-
-.planet-ring {
-    position: absolute;
+    --duration: 20s;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotateX(75deg);
-    width: 60px;
-    height: 60px;
-    border: 1px solid var(--planet-color);
-    border-radius: 50%;
-    opacity: 0.15;
-    transition: all 0.3s ease;
+    transform-origin: center;
+    animation: orbitPlanet var(--duration) linear infinite;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .planet:hover {
-    opacity: 0.8;
+    --duration: 120s;
+    animation: orbitPlanet var(--duration) linear infinite;
+}
+
+/* different orbit radii and speeds for each planet */
+.planet:nth-child(1) {
+    --radius: 280;
+    --angle: 0deg;
+    --duration: 40s;
+}
+
+.planet:nth-child(2) {
+    --radius: 320;
+    --angle: 60deg;
+    --duration: 50s;
+}
+
+.planet:nth-child(3) {
+    --radius: 360;
+    --angle: 120deg;
+    --duration: 60s;
+}
+
+.planet:nth-child(4) {
+    --radius: 300;
+    --angle: 180deg;
+    --duration: 44s;
+}
+
+.planet:nth-child(5) {
+    --radius: 340;
+    --angle: 240deg;
+    --duration: 54s;
+}
+
+.planet:nth-child(6) {
+    --radius: 380;
+    --angle: 300deg;
+    --duration: 70s;
+}
+
+@keyframes orbitPlanet {
+    0% {
+        transform: translate(-50%, -50%) rotate(var(--angle)) translateX(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1));
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(calc(var(--angle) + 360deg)) translateX(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1 - 360deg));
+    }
+}
+
+.planet-core {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--planet-color);
+    box-shadow: 
+        0 0 8px var(--planet-color),
+        0 0 16px var(--planet-color),
+        inset -2px -2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transition: all 0.3s ease;
+    opacity: 1;
 }
 
 .planet:hover .planet-core,
 .planet.active .planet-core {
-    transform: scale(1.2);
+    transform: scale(2.5);
     opacity: 1;
     box-shadow: 
-        0 0 20px var(--planet-color),
-        0 0 40px var(--planet-color),
-        0 0 60px var(--planet-color),
-        0 0 80px rgba(var(--planet-color-rgb, 10, 132, 255), 0.4),
-        0 0 100px rgba(var(--planet-color-rgb, 10, 132, 255), 0.2),
-        inset -5px -5px 10px rgba(0, 0, 0, 0.2);
-    filter: drop-shadow(0 0 30px var(--planet-color));
-}
-
-.planet:hover .planet-ring,
-.planet.active .planet-ring {
-    opacity: 0.6;
-    transform: translate(-50%, -50%) rotateX(75deg) scale(1.3);
-    border-width: 2px;
-    box-shadow: 
-        0 0 15px var(--planet-color),
-        0 0 30px var(--planet-color);
-    filter: drop-shadow(0 0 20px var(--planet-color));
-}
-
-.planet.active {
-    opacity: 1;
+        0 0 16px var(--planet-color),
+        0 0 32px var(--planet-color),
+        0 0 48px var(--planet-color),
+        0 0 64px rgba(var(--planet-color-rgb), 0.5);
 }
 
 .planet.active .planet-core {
     animation: planetPulse 2s ease-in-out infinite;
 }
 
-@keyframes orbitFloat {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg) translateX(var(--radius, 200px)) rotate(0deg) translateZ(0);
-    }
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg) translateX(var(--radius, 200px)) rotate(-360deg) translateZ(0);
-    }
-}
-
 @keyframes planetPulse {
     0%, 100% {
-        transform: scale(1.2);
-        box-shadow: 
-            0 0 12px var(--planet-color),
-            0 0 24px var(--planet-color),
-            0 0 36px rgba(var(--planet-color-rgb, 10, 132, 255), 0.3);
-    }
-    50% {
-        transform: scale(1.25);
+        transform: scale(2.5);
         box-shadow: 
             0 0 16px var(--planet-color),
             0 0 32px var(--planet-color),
-            0 0 48px rgba(var(--planet-color-rgb, 10, 132, 255), 0.4);
+            0 0 48px var(--planet-color);
+    }
+    50% {
+        transform: scale(2.7);
+        box-shadow: 
+            0 0 20px var(--planet-color),
+            0 0 40px var(--planet-color),
+            0 0 60px var(--planet-color);
     }
 }
 
-@keyframes planetsContainerSpin {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
-}
-
-/* Planets Legend */
+/* planets legend */
 .planets-legend {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 24px;
-    padding: 12px 24px;
-    background: transparent;
-    border: none;
+    gap: 16px;
+    padding: 12px 20px;
+    background: rgba(28, 28, 30, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    opacity: 0.3;
-    transition: opacity 0.3s ease;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    margin-top: 40px;
 }
 
 .planets-legend.hero-legend {
-    position: absolute;
-    bottom: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 1200px;
-    margin: 0;
-    z-index: 3;
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: auto;
+    margin: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    z-index: 9999;
+}
+
+/* only show legend when in hero section */
+body:not(.scrolled) .planets-legend.hero-legend {
+    display: flex !important;
+}
+
+body.scrolled .planets-legend.hero-legend {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .planets-legend.hero-legend {
+        bottom: 15px;
+        gap: 12px;
+        padding: 10px 16px;
+    }
 }
 
 .planets-legend:hover {
-    opacity: 0.6;
+    opacity: 1;
+    background: rgba(28, 28, 30, 0.7);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 12px;
+    gap: 6px;
+    font-size: 11px;
     color: var(--apple-text-secondary);
     opacity: 0.7;
     white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+
+.planets-legend:hover .legend-item {
+    opacity: 1;
 }
 
 .legend-planet {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: var(--planet-color);
     box-shadow: 0 0 4px var(--planet-color);
     flex-shrink: 0;
-    opacity: 0.6;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
 }
 
-/* Full Sections */
+.planets-legend:hover .legend-planet {
+    opacity: 1;
+    box-shadow: 0 0 8px var(--planet-color);
+}
+
+/* full sections */
 .full-section {
     min-height: 100vh;
     padding: 120px 20px;
@@ -617,6 +560,18 @@ body {
 }
 
 .full-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* universal scroll animation for all text elements */
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-animate.visible {
     opacity: 1;
     transform: translateY(0);
 }
@@ -658,7 +613,7 @@ body {
     animation: intenseBreath 3s ease-in-out infinite;
 }
 
-/* Projects Section */
+/* projects section */
 .projects-container {
     display: flex;
     flex-direction: column;
@@ -858,9 +813,10 @@ body {
     background: rgba(255, 69, 58, 0.2);
 }
 
-/* Education Section */
+/* education section */
 #academics {
-    padding-bottom: 20px;
+    padding-bottom: 250px;
+    min-height: auto;
 }
 
 .education-container {
@@ -974,7 +930,7 @@ body {
     border: 1px solid rgba(48, 209, 88, 0.3);
 }
 
-/* Skills Section */
+/* skills section */
 #skills {
     padding-top: 40px;
 }
@@ -1030,7 +986,7 @@ body {
     opacity: 1;
 }
 
-/* Experience Section */
+/* experience section */
 .experience-container-large {
     display: flex;
     flex-direction: column;
@@ -1105,7 +1061,7 @@ body {
     max-width: 900px;
 }
 
-/* Tech Stack Section */
+/* tech stack section */
 .tech-stack-container {
     display: flex;
     flex-direction: column;
@@ -1151,7 +1107,7 @@ body {
     opacity: 1;
 }
 
-/* Certifications Section */
+/* certifications section */
 .cert-container-large {
     display: flex;
     flex-direction: column;
@@ -1204,7 +1160,7 @@ body {
     color: var(--apple-text-secondary);
 }
 
-/* About Section */
+/* about section */
 .about-section-full {
     padding-bottom: 120px;
 }
@@ -1218,6 +1174,7 @@ body {
 
 .photo-container-large {
     flex: 0 0 300px;
+    position: relative;
 }
 
 .photo-label-large {
@@ -1301,6 +1258,120 @@ body {
     overflow: hidden;
 }
 
+/* fun arrow container */
+.fun-arrow-container {
+    position: absolute;
+    top: -160px;
+    left: 50%;
+    transform: translateX(-110px); /* move to the left using pixels */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    z-index: 10;
+    pointer-events: none;
+    width: 200px; /* fixed width to prevent shifting */
+}
+
+.fun-arrow-container.animate {
+    animation: fadeInArrow 0.8s ease-out forwards;
+}
+
+.fun-arrow {
+    width: 80px;
+    height: 120px;
+    color: var(--apple-text-primary);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    flex-shrink: 0; /* prevent arrow from shrinking */
+    position: relative; /* keep arrow in place */
+    margin: 0 auto; /* center the arrow */
+    transform-origin: 40px 60px; /* center of arrow (half width, half height) */
+}
+
+.arrow-path {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+}
+
+.fun-arrow-container.animate .arrow-path {
+    animation: drawArrow 1.5s ease-out 0.2s forwards;
+}
+
+.arrow-head {
+    opacity: 0;
+    transform-origin: center;
+}
+
+.fun-arrow-container.animate .arrow-head {
+    animation: fadeInHead 0.3s ease-out 1.5s forwards, arrowBounce 1s ease-in-out 1.8s infinite;
+}
+
+.arrow-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--apple-text-secondary);
+    white-space: nowrap;
+    opacity: 1;
+    min-height: 20px;
+    text-align: center;
+    width: 100%; /* take full width of container */
+    display: block;
+    position: relative;
+}
+
+.arrow-text.typing::after {
+    content: '|';
+    animation: blinkCursor 1s infinite;
+    margin-left: 2px;
+}
+
+@keyframes fadeInArrow {
+    from {
+        opacity: 0;
+        transform: translateX(-110px) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-110px) translateY(0);
+    }
+}
+
+@keyframes drawArrow {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fadeInHead {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes arrowBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(3px);
+    }
+}
+
+@keyframes blinkCursor {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
 .about-text-container {
     flex: 1;
     min-width: 400px;
@@ -1312,6 +1383,245 @@ body {
     line-height: 1.5;
     margin-bottom: 60px;
     max-width: 700px;
+}
+
+/* journey star link */
+.journey-star-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    color: var(--apple-text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.journey-star-link:hover {
+    color: var(--apple-text-primary);
+    transform: translateY(-2px);
+}
+
+.journey-star-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--apple-text-primary);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    animation: starFloat 3s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+.journey-star-text {
+    font-size: 18px;
+    color: inherit;
+    font-weight: 500;
+}
+
+@keyframes starFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-5px) rotate(5deg);
+    }
+}
+
+/* back navigation */
+.back-nav {
+    position: fixed;
+    top: 80px;
+    left: 40px;
+    z-index: 100;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--apple-text-secondary);
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--apple-text-primary);
+    transform: translateX(-5px);
+}
+
+/* journey greeting */
+.journey-greeting {
+    font-size: 16px;
+    color: var(--apple-text-secondary);
+    margin-bottom: 20px;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+/* click instruction */
+.click-instruction {
+    font-size: 16px;
+    color: var(--apple-text-secondary);
+    margin-bottom: 40px;
+    font-weight: 400;
+    opacity: 0.7;
+    min-height: 20px;
+}
+
+.click-instruction.typing::after {
+    content: '|';
+    animation: blinkCursor 1s infinite;
+    margin-left: 2px;
+}
+
+
+/* journey timeline */
+.journey-timeline {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    padding: 60px 20px;
+}
+
+.journey-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.journey-line {
+    stroke: var(--apple-text-primary);
+    stroke-width: 2;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawJourneyLine 2.5s ease-out forwards;
+}
+
+@keyframes drawJourneyLine {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes wigglyLine {
+    0%, 100% {
+        filter: drop-shadow(0 0 0px currentColor);
+    }
+    50% {
+        filter: drop-shadow(1px 1px 2px currentColor);
+    }
+}
+
+.journey-item {
+    position: absolute;
+    z-index: 10;
+    perspective: 1000px;
+}
+
+.journey-card {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer;
+}
+
+.journey-card.flipped {
+    transform: rotateY(180deg);
+}
+
+.journey-card-front,
+.journey-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.journey-card:hover .journey-card-front,
+.journey-card:hover .journey-card-back {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.journey-card-back {
+    transform: rotateY(180deg);
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.journey-item-1 {
+    top: 8%;
+    left: 8%;
+}
+
+.journey-item-2 {
+    top: 32%;
+    left: 38%;
+}
+
+.journey-item-3 {
+    top: 56%;
+    left: 12%;
+}
+
+.journey-item-4 {
+    top: 80%;
+    left: 42%;
+}
+
+.journey-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.journey-card-text {
+    font-size: 16px;
+    color: var(--apple-text-primary);
+    line-height: 1.5;
+    margin: 0;
+    text-align: center;
+    min-height: 20px;
+}
+
+.journey-card-text.typing::after {
+    content: '|';
+    animation: blinkCursor 1s infinite;
+    margin-left: 2px;
+}
+
+
+/* extended content */
+.extended-content {
+    max-width: 900px;
+}
+
+.extended-text {
+    font-size: 24px;
+    color: var(--apple-text-secondary);
+    line-height: 1.5;
+    margin-bottom: 40px;
 }
 
 .contact-container-large {
@@ -1376,7 +1686,79 @@ body {
     transform: translateY(-1px);
 }
 
-/* Animations */
+/* social links container */
+.social-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+/* linkedin logo */
+.linkedin-logo {
+    display: inline-block;
+    padding: 8px;
+    color: var(--apple-text-secondary);
+    opacity: 0.4;
+    transition: opacity 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+}
+
+.linkedin-logo:hover {
+    opacity: 0.8;
+    color: var(--apple-text-primary);
+}
+
+.github-logo {
+    display: inline-block;
+    padding: 8px;
+    color: var(--apple-text-secondary);
+    opacity: 0.4;
+    transition: opacity 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+}
+
+.github-logo:hover {
+    opacity: 0.8;
+    color: var(--apple-text-primary);
+}
+
+.linkedin-logo svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+/* spotify logo */
+.spotify-logo {
+    display: inline-block;
+    padding: 8px;
+    color: var(--apple-text-secondary);
+    opacity: 0.4;
+    transition: opacity 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    position: relative;
+}
+
+.spotify-logo:hover {
+    opacity: 0.8;
+    color: var(--apple-text-primary);
+}
+
+.spotify-logo svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+/* music symbols animation */
+/* animations */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -1450,7 +1832,7 @@ body {
     }
 }
 
-/* Shooting Star */
+/* shooting star */
 .shooting-star {
     position: fixed;
     top: 20%;
@@ -1509,7 +1891,7 @@ body {
     animation: shootStar var(--star-duration, 2s) ease-out forwards;
 }
 
-/* Responsive Design */
+/* responsive design */
 @media (max-width: 768px) {
     .hero-title {
         font-size: 64px;
@@ -1562,6 +1944,25 @@ body {
     .photo-label-large {
         width: 100%;
         max-width: 300px;
+    }
+
+    .fun-arrow-container {
+        top: -140px;
+    }
+
+    .fun-arrow {
+        width: 60px;
+        height: 100px;
+    }
+
+    .arrow-text {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .fun-arrow-container {
+        display: none; /* hide on very small screens */
     }
 }
 

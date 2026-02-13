@@ -1,4 +1,4 @@
-// Handle photo upload (guarded if upload input exists)
+// photo upload handler
 const photoInput = document.getElementById('photo-upload');
 const photoPreview = document.getElementById('photo-preview');
 const photoOverlay = document.querySelector('.photo-overlay-large');
@@ -22,7 +22,7 @@ if (photoInput) {
     });
 }
 
-// Handle project files upload (guarded / may be removed)
+// project files upload handler
 const projectFilesInput = document.getElementById('project-files-upload');
 const filesList = document.getElementById('files-list');
 
@@ -106,40 +106,40 @@ if (projectFilesInput && filesList) {
             filesList.appendChild(fileItem);
         });
         
-        // Clear the input so the same file can be uploaded again if needed
+        // clear input so same file can be uploaded again
         e.target.value = '';
     });
 }
 
-// Scroll animations - optimized for performance
+// scroll animations
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -100px 0px'
 };
 
-// Use requestIdleCallback for better scroll performance
+// intersection observer for scroll animations
 const observer = new IntersectionObserver((entries) => {
-    // Use requestAnimationFrame to batch updates
     requestAnimationFrame(() => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
             } else {
+                // remove visible class when scrolling back up for re-animation
                 entry.target.classList.remove('visible');
             }
         });
     });
 }, observerOptions);
 
-// Observe all sections and animated elements
+// observe all sections and animated elements
 document.addEventListener('DOMContentLoaded', function() {
-    // Observe full sections
+    // observe full sections
     const sections = document.querySelectorAll('.full-section');
     sections.forEach(section => {
         observer.observe(section);
     });
 
-    // Observe project items
+    // observe project items
     const projectItems = document.querySelectorAll('.project-item-large');
     projectItems.forEach((item, index) => {
         setTimeout(() => {
@@ -147,13 +147,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 100);
     });
 
-    // Observe education items
+    // observe education items
     const educationItems = document.querySelectorAll('.education-item-large');
     educationItems.forEach(item => {
         observer.observe(item);
     });
 
-    // Observe skill categories
+    // observe skill categories
     const skillCategories = document.querySelectorAll('.skill-category-large');
     skillCategories.forEach((item, index) => {
         setTimeout(() => {
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 100);
     });
 
-    // Observe experience items
+    // observe experience items
     const experienceItems = document.querySelectorAll('.experience-item-large');
     experienceItems.forEach((item, index) => {
         setTimeout(() => {
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 100);
     });
 
-    // Observe certification items
+    // observe certification items
     const certItems = document.querySelectorAll('.cert-item-large');
     certItems.forEach((item, index) => {
         setTimeout(() => {
@@ -177,34 +177,52 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 100);
     });
     
-    // Ensure About section heading reflects latest copy
+    // add scroll animation to all text elements
+    const textElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, li, .project-title-large, .project-description-large, .project-badge-large, .education-title-large, .education-year-large, .skill-category-title-large, .skill-tag-large, .experience-title-large, .experience-description-large, .tech-category-title-large, .tech-tag-large, .about-text-large, .contact-item-large, .resume-link');
+    
+    textElements.forEach((element, index) => {
+        // skip elements in hero section or already animated
+        if (element.closest('.hero-section') || element.classList.contains('letter') || element.closest('.planets-legend')) {
+            return;
+        }
+        
+        // add scroll-animate class
+        element.classList.add('scroll-animate');
+        
+        // observe with staggered delay
+        setTimeout(() => {
+            observer.observe(element);
+        }, index * 10);
+    });
+    
+    // ensure about section heading is correct
     const aboutHeading = document.querySelector('#about .about-text-container .section-heading');
     if (aboutHeading && aboutHeading.textContent.trim() !== 'Who am I?') {
         aboutHeading.textContent = 'Who am I?';
     }
 });
 
-// Shooting Star - Appears periodically above the hero section
+// shooting star that appears periodically above hero section
 function createShootingStar() {
     const star = document.createElement('div');
     star.className = 'shooting-star';
     
-    // Randomize top position (15% to 25% from top - above "Walid Latif")
+    // randomize top position (15-25% from top)
     const randomTop = 15 + Math.random() * 10;
     star.style.top = randomTop + '%';
     
-    // Randomize animation duration (1.5s to 2.5s)
+    // randomize animation duration (1.5-2.5s)
     const randomDuration = 1.5 + Math.random() * 1;
     star.style.setProperty('--star-duration', randomDuration + 's');
     
     document.body.appendChild(star);
     
-    // Trigger animation
+    // trigger animation
     requestAnimationFrame(() => {
         star.classList.add('active');
     });
     
-    // Remove star after animation completes
+    // remove star after animation completes
     setTimeout(() => {
         star.remove();
     }, (randomDuration * 1000) + 500);
@@ -213,18 +231,18 @@ function createShootingStar() {
 }
 
 function spawnShootingStar() {
-    // Random spawn interval (5 to 12 seconds)
+    // random spawn interval (5-12 seconds)
     const randomDelay = 5000 + Math.random() * 7000;
     
     setTimeout(() => {
         createShootingStar();
-        spawnShootingStar(); // Schedule next spawn
+        spawnShootingStar(); // schedule next spawn
     }, randomDelay);
 }
 
-// Start spawning shooting stars after page loads
+// start spawning shooting stars after page loads
 document.addEventListener('DOMContentLoaded', function() {
-    // Initial delay before first star spawn (3-6 seconds)
+    // initial delay before first star spawn (3-6 seconds)
     const initialDelay = 3000 + Math.random() * 3000;
     setTimeout(() => {
         createShootingStar();
@@ -232,17 +250,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }, initialDelay);
 });
 
-// Fog cursor follower - creates fog effect that follows cursor
+// fog cursor follower - creates fog effect that follows cursor
 document.addEventListener('DOMContentLoaded', function() {
-    // Create stars container
+    // create stars container
     const starsContainer = document.createElement('div');
     starsContainer.className = 'stars-container';
     
-    // Create individual stars with shine effect - create a good amount of stars
+    // create individual stars
     const numStars = 65;
     const starPositions = [];
     
-    // Generate random star positions
+    // generate random star positions
     for (let i = 0; i < numStars; i++) {
         starPositions.push({
             x: Math.random() * 100,
@@ -261,13 +279,13 @@ document.addEventListener('DOMContentLoaded', function() {
         starElement.style.height = star.size + 'px';
         starElement.style.borderRadius = '50%';
         starElement.style.background = 'white';
-        // No shine animation or box-shadow for stars
+        // no shine animation for stars
         starsContainer.appendChild(starElement);
     });
     
     document.body.appendChild(starsContainer);
     
-    // Create shooting star cursor - rebuilt from scratch
+    // create shooting star cursor
     const cursor = document.createElement('div');
     cursor.className = 'shooting-star-cursor';
     cursor.style.position = 'fixed';
@@ -283,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
     cursor.style.top = '0px';
     document.body.appendChild(cursor);
     
-    // Create SVG for curved trail
+    // create svg for curved trail
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.style.position = 'fixed';
     svg.style.top = '0';
@@ -306,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function() {
     path.style.opacity = '0.9';
     svg.appendChild(path);
     
-    // Create gradient for trail
+    // create gradient for trail
     const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
     const linearGradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
     linearGradient.setAttribute('id', 'trailGradient');
@@ -338,19 +356,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.body.appendChild(svg);
     
-    // Create fog element
+    // create fog element
     const fog = document.createElement('div');
     fog.className = 'cursor-fog';
     document.body.appendChild(fog);
     
-    // Update viewBox on resize
+    // update viewbox on resize
     window.addEventListener('resize', () => {
         svg.setAttribute('width', window.innerWidth);
         svg.setAttribute('height', window.innerHeight);
         svg.setAttribute('viewBox', `0 0 ${window.innerWidth} ${window.innerHeight}`);
     });
     
-    // Mouse tracking variables
+    // mouse tracking variables
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
     let cursorX = mouseX;
@@ -360,33 +378,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const trailPoints = [];
     const maxTrailPoints = 30;
     
-    // Track mouse movement - use window instead of document for better coverage
+    // track mouse movement
     window.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
         fog.classList.add('active');
         cursor.style.opacity = '1';
         
-        // Add point to trail
+        // add point to trail
         trailPoints.push({ x: e.clientX, y: e.clientY });
         if (trailPoints.length > maxTrailPoints) {
             trailPoints.shift();
         }
     });
     
-    // Smooth animation loop
+    // smooth animation loop
     function animateCursor() {
-        // Smooth interpolation for cursor position
+        // smooth interpolation for cursor position
         cursorX += (mouseX - cursorX) * 0.25;
         cursorY += (mouseY - cursorY) * 0.25;
         
-        // Update cursor position
+        // update cursor position
         cursor.style.left = cursorX + 'px';
         cursor.style.top = cursorY + 'px';
         
-        // Update curved trail path
+        // update curved trail path
         if (trailPoints.length >= 2) {
-            // Smooth the trail points
+            // smooth the trail points
             const smoothedPoints = [];
             for (let i = 0; i < trailPoints.length; i++) {
                 if (i === 0) {
@@ -401,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
-            // Create smooth curved path using cubic bezier curves
+            // create smooth curved path using cubic bezier curves
             let pathData = `M ${smoothedPoints[0].x} ${smoothedPoints[0].y}`;
             
             if (smoothedPoints.length === 2) {
@@ -426,7 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
             path.setAttribute('stroke', 'url(#trailGradient)');
         }
         
-        // Smooth interpolation for fog
+        // smooth interpolation for fog
         fogX += (mouseX - fogX) * 0.1;
         fogY += (mouseY - fogY) * 0.1;
         fog.style.left = fogX + 'px';
@@ -435,14 +453,14 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(animateCursor);
     }
     
-    // Initialize cursor position
+    // initialize cursor position
     cursor.style.left = cursorX + 'px';
     cursor.style.top = cursorY + 'px';
     
-    // Start animation
+    // start animation
     animateCursor();
     
-    // Hide/show cursor on mouse leave/enter
+    // hide/show cursor on mouse leave/enter
     window.addEventListener('mouseleave', () => {
         fog.classList.remove('active');
         cursor.style.opacity = '0';
@@ -454,90 +472,36 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Letter floating animation
+// letter hover animation
 document.addEventListener('DOMContentLoaded', function() {
     const heroTitle = document.getElementById('hero-title');
-    if (!heroTitle) return;
+    if (!heroTitle) {
+        console.warn('Hero title element not found');
+        return;
+    }
     
-    // Wrap each letter (and space) in a span
-    const text = heroTitle.textContent;
+    // wrap each letter in a span
+    const text = heroTitle.textContent.trim();
+    if (!text) {
+        console.warn('Hero title has no text content');
+        return;
+    }
+    
     heroTitle.innerHTML = '';
     
     for (let i = 0; i < text.length; i++) {
         const span = document.createElement('span');
         span.className = 'letter';
-        span.textContent = text[i] === ' ' ? '\u00A0' : text[i]; // Non-breaking space
+        span.textContent = text[i] === ' ' ? '\u00A0' : text[i]; // non-breaking space
         heroTitle.appendChild(span);
     }
     
-    const letters = heroTitle.querySelectorAll('.letter');
-    
-    // Function to trigger floating animation on a random letter
-    function triggerFloatingAnimation() {
-        // Only animate non-space letters
-        const nonSpaceLetters = Array.from(letters).filter((letter) => {
-            return letter.textContent.trim() !== '';
-        });
-        
-        if (nonSpaceLetters.length < 2) return; // Need at least 2 letters
-        
-        // Pick a random letter (not the first or last)
-        const randomIndex = Math.floor(Math.random() * (nonSpaceLetters.length - 2)) + 1;
-        const floatingLetter = nonSpaceLetters[randomIndex];
-        
-        // Find the adjacent letter (prefer left, but can be right if it's the first)
-        let adjacentLetter = null;
-        const floatingIndex = Array.from(letters).indexOf(floatingLetter);
-        
-        // Try to find left neighbor first
-        for (let i = floatingIndex - 1; i >= 0; i--) {
-            if (letters[i].textContent.trim() !== '') {
-                adjacentLetter = letters[i];
-                break;
-            }
-        }
-        
-        // If no left neighbor, find right neighbor
-        if (!adjacentLetter) {
-            for (let i = floatingIndex + 1; i < letters.length; i++) {
-                if (letters[i].textContent.trim() !== '') {
-                    adjacentLetter = letters[i];
-                    break;
-                }
-            }
-        }
-        
-        if (!adjacentLetter) return;
-        
-        // Trigger animations
-        floatingLetter.classList.add('floating');
-        adjacentLetter.classList.add('pulling');
-        
-        // Remove animation classes after animation completes
-        setTimeout(() => {
-            floatingLetter.classList.remove('floating');
-            adjacentLetter.classList.remove('pulling');
-        }, 1500);
-    }
-    
-    // Trigger animation randomly every 4-8 seconds
-    function scheduleNextAnimation() {
-        const delay = 4000 + Math.random() * 4000; // 4-8 seconds
-        setTimeout(() => {
-            triggerFloatingAnimation();
-            scheduleNextAnimation(); // Schedule next animation
-        }, delay);
-    }
-    
-    // Start the first animation after a short delay
-    setTimeout(() => {
-        scheduleNextAnimation();
-    }, 2000);
+    console.log('Letter wrapping complete. Total letters:', heroTitle.querySelectorAll('.letter').length);
 });
 
-// Dramatic opening animation
+// dramatic opening animation
 document.addEventListener('DOMContentLoaded', function() {
-    // Add fade overlay
+    // add fade overlay
     const fadeOverlay = document.createElement('div');
     fadeOverlay.style.cssText = `
         position: fixed;
@@ -553,7 +517,7 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.body.appendChild(fadeOverlay);
     
-    // Fade out overlay after a delay
+    // fade out overlay after delay
     setTimeout(() => {
         fadeOverlay.style.opacity = '0';
         setTimeout(() => {
@@ -561,16 +525,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1500);
     }, 500);
     
-    // Make planets visible after entrance animation
-    setTimeout(() => {
-        const planets = document.querySelectorAll('.planet');
-        planets.forEach(planet => {
-            planet.classList.add('visible');
-        });
-    }, 3000);
 });
 
-// Floating Planets Navigation
+// orbiting planets navigation
 document.addEventListener('DOMContentLoaded', function() {
     const planets = document.querySelectorAll('.planet');
     let activePlanet = null;
@@ -578,95 +535,282 @@ document.addEventListener('DOMContentLoaded', function() {
     planets.forEach(planet => {
         planet.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             const sectionId = this.getAttribute('data-section');
             const targetSection = document.getElementById(sectionId);
 
             if (targetSection) {
-                // Remove active class from previously active planet
-                if (activePlanet) {
+                // remove active class from previously active planet
+                if (activePlanet && activePlanet !== this) {
                     activePlanet.classList.remove('active');
                 }
 
-                // Add active class to clicked planet
+                // add active class to clicked planet
                 this.classList.add('active');
                 activePlanet = this;
 
-                // Smooth scroll to section
-                const offsetTop = targetSection.offsetTop - 80; // Account for any fixed headers
+                // smooth scroll to section
+                const offsetTop = targetSection.offsetTop - 80;
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth'
                 });
 
-                // Remove active class quickly after click (just a brief flash)
+                // remove active class after animation
                 setTimeout(() => {
                     if (this === activePlanet) {
                         this.classList.remove('active');
                         activePlanet = null;
                     }
-                }, 500); // Remove active state after 500ms
+                }, 2000);
             }
-        });
-
-        // Trigger spin animation after clicking a planet
-        let spinTimeout = null;
-        
-        planet.addEventListener('click', function(e) {
-            // Clear any pending spin animation
-            if (spinTimeout) {
-                clearTimeout(spinTimeout);
-                spinTimeout = null;
-            }
-            
-            // Schedule spin animation after a short delay
-            spinTimeout = setTimeout(() => {
-                // Trigger spinning animation for the entire planets container
-                const planetsContainer = document.querySelector('.planets-container');
-                const allPlanets = document.querySelectorAll('.planet');
-                const delays = [0, -3.3, -6.6, -10, -13.3, -16.6];
-                
-                // Pause all planet animations
-                allPlanets.forEach((p) => {
-                    p.style.animationPlayState = 'paused';
-                });
-                
-                // Add mixing class to container to spin the whole system
-                planetsContainer.classList.add('mixing');
-                
-                // After spin animation completes, restore normal orbits
-                setTimeout(() => {
-                    planetsContainer.classList.remove('mixing');
-                    
-                    // Restore all planets to normal animation
-                    allPlanets.forEach((p, index) => {
-                        p.style.animation = 'orbitFloat 20s linear infinite';
-                        p.style.animationDelay = `${delays[index]}s`;
-                        p.style.animationPlayState = 'running';
-                    });
-                }, 1500); // 1.5 seconds for the spin animation
-                
-                spinTimeout = null;
-            }, 500); // Wait 0.5 seconds after click
         });
     });
 
-    // Update planet positions based on scroll position
+    // hide planets and legend when scrolled past hero section
     function updatePlanetVisibility() {
         const scrollY = window.scrollY;
         const windowHeight = window.innerHeight;
         const planetsContainer = document.querySelector('.planets-container');
         
-        // Hide planets when scrolled past hero section
-        if (scrollY > windowHeight * 0.5) {
-            planetsContainer.style.opacity = '0';
-            planetsContainer.style.pointerEvents = 'none';
-        } else {
-            planetsContainer.style.opacity = '1';
-            planetsContainer.style.pointerEvents = 'auto';
+        if (planetsContainer) {
+            if (scrollY > windowHeight * 0.5) {
+                planetsContainer.style.opacity = '0';
+                planetsContainer.style.pointerEvents = 'none';
+                document.body.classList.add('scrolled');
+            } else {
+                planetsContainer.style.opacity = '1';
+                planetsContainer.style.pointerEvents = 'auto';
+                document.body.classList.remove('scrolled');
+            }
         }
     }
 
     window.addEventListener('scroll', updatePlanetVisibility);
     updatePlanetVisibility();
 });
+
+// fun arrow typing animation (repeating)
+document.addEventListener('DOMContentLoaded', function() {
+    const arrowContainer = document.querySelector('.fun-arrow-container');
+    const arrowText = document.querySelector('.arrow-text');
+    const arrowPath = document.querySelector('.arrow-path');
+    const arrowHead = document.querySelector('.arrow-head');
+    
+    if (!arrowContainer || !arrowText || !arrowPath || !arrowHead) return;
+    
+    const fullText = 'really cool guy btw';
+    
+    function resetAnimation() {
+        // reset all elements
+        arrowContainer.classList.remove('animate');
+        arrowText.classList.remove('typing');
+        arrowText.textContent = '';
+        arrowPath.style.strokeDashoffset = '200';
+        arrowHead.style.opacity = '0';
+        arrowContainer.style.opacity = '0';
+    }
+    
+    function playAnimation() {
+        resetAnimation();
+        
+        // force reflow
+        void arrowContainer.offsetWidth;
+        
+        // start animation
+        arrowContainer.classList.add('animate');
+        arrowText.classList.add('typing');
+        
+        // start typing animation when arrow path is drawn (after 1.7s total)
+        setTimeout(() => {
+            let currentIndex = 0;
+            
+            function typeNextChar() {
+                if (currentIndex < fullText.length) {
+                    arrowText.textContent = fullText.substring(0, currentIndex + 1);
+                    currentIndex++;
+                    setTimeout(typeNextChar, 80); // 80ms per character
+                }
+            }
+            
+            typeNextChar();
+        }, 1700);
+        
+        // fade out after typing completes
+        const typingTime = fullText.length * 80;
+        setTimeout(() => {
+            arrowContainer.style.opacity = '0';
+            arrowContainer.style.transition = 'opacity 0.5s ease-out';
+            setTimeout(() => {
+                arrowContainer.style.transition = '';
+            }, 500);
+        }, 1700 + typingTime + 1000);
+    }
+    
+    // check if about section is visible
+    function checkAndPlay() {
+        const aboutSection = document.getElementById('about');
+        if (!aboutSection) return;
+        
+        const rect = aboutSection.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        
+        if (isVisible && arrowContainer.style.opacity === '0' || !arrowContainer.classList.contains('animate')) {
+            // only play if not already animating
+            if (!arrowContainer.classList.contains('animate')) {
+                playAnimation();
+            }
+        }
+    }
+    
+    // initial check
+    setTimeout(checkAndPlay, 1000);
+    
+    // repeat animation every 8-10 seconds
+    function scheduleNextAnimation() {
+        const delay = 8000 + Math.random() * 2000; // 8-10 seconds
+        setTimeout(() => {
+            checkAndPlay();
+            scheduleNextAnimation();
+        }, delay);
+    }
+    
+    // start scheduling after initial animation
+    setTimeout(scheduleNextAnimation, 9000);
+    
+    // also check on scroll
+    window.addEventListener('scroll', checkAndPlay);
+});
+
+// draw connecting lines for journey timeline
+document.addEventListener('DOMContentLoaded', function() {
+    const timeline = document.querySelector('.journey-timeline');
+    if (!timeline) return;
+    
+    const items = [
+        document.querySelector('.journey-item-1'),
+        document.querySelector('.journey-item-2'),
+        document.querySelector('.journey-item-3'),
+        document.querySelector('.journey-item-4')
+    ];
+    
+    if (items.some(item => !item)) return;
+    
+    function drawLines() {
+        const svg = timeline.querySelector('.journey-lines');
+        if (!svg) return;
+        
+        // get positions of each image (center points)
+        const positions = items.map(item => {
+            const rect = item.getBoundingClientRect();
+            const timelineRect = timeline.getBoundingClientRect();
+            return {
+                x: (rect.left + rect.width / 2 - timelineRect.left) / timelineRect.width * 100,
+                y: (rect.top + rect.height / 2 - timelineRect.top) / timelineRect.height * 100
+            };
+        });
+        
+        // create path connecting all points
+        let path = `M ${positions[0].x} ${positions[0].y}`;
+        for (let i = 1; i < positions.length; i++) {
+            const prev = positions[i - 1];
+            const curr = positions[i];
+            // create curved path with control points
+            const midX = (prev.x + curr.x) / 2;
+            const midY = (prev.y + curr.y) / 2;
+            // add some wiggle
+            const wiggleX = (i % 2 === 0) ? 5 : -5;
+            path += ` Q ${midX + wiggleX} ${midY} ${curr.x} ${curr.y}`;
+        }
+        
+        const line = svg.querySelector('.journey-line');
+        if (line) {
+            line.setAttribute('d', path);
+        }
+    }
+    
+    // draw lines after images load
+    setTimeout(drawLines, 100);
+    window.addEventListener('resize', drawLines);
+});
+
+// journey photo click descriptions
+document.addEventListener('DOMContentLoaded', function() {
+    // type out "click on the pictures" instruction
+    const clickInstruction = document.querySelector('.click-instruction');
+    if (clickInstruction) {
+        const instructionText = 'click on the pictures';
+        clickInstruction.textContent = '';
+        clickInstruction.classList.add('typing');
+        
+        setTimeout(() => {
+            let currentIndex = 0;
+            function typeNextChar() {
+                if (currentIndex < instructionText.length) {
+                    clickInstruction.textContent = instructionText.substring(0, currentIndex + 1);
+                    currentIndex++;
+                    setTimeout(typeNextChar, 80);
+                }
+            }
+            typeNextChar();
+        }, 1000);
+    }
+    
+    // descriptions for each image (top-left=journey-item-1, etc.)
+    const descriptions = {
+        'journey-item-1': "i liked nutella sandwiches", // top-left
+        'journey-item-2': "i grew up loving basketball, still play sometimes... let's 1v1", // second position
+        'journey-item-3': "idk how i didn't make provincials", // third position
+        'journey-item-4': "i've been getting into building more personal arduino projects, ill add those to here soon..." // fourth position
+    };
+    
+    // add click handlers to each journey card
+    const journeyItems = document.querySelectorAll('.journey-item');
+    
+    journeyItems.forEach(item => {
+        const card = item.querySelector('.journey-card');
+        const cardText = item.querySelector('.journey-card-text');
+        
+        if (!card || !cardText) return;
+        
+        card.addEventListener('click', function() {
+            const itemClass = Array.from(item.classList).find(cls => cls.startsWith('journey-item-'));
+            if (!itemClass) return;
+            
+            const description = descriptions[itemClass];
+            if (!description) return;
+            
+            // toggle flip
+            const isFlipped = card.classList.contains('flipped');
+            
+            if (isFlipped) {
+                // flip back to front
+                card.classList.remove('flipped');
+                cardText.classList.remove('typing');
+                cardText.textContent = '';
+            } else {
+                // flip to back and type description
+                card.classList.add('flipped');
+                cardText.classList.add('typing');
+                cardText.textContent = '';
+                
+                // type out description after flip animation starts
+                setTimeout(() => {
+                    let currentIndex = 0;
+                    function typeNextChar() {
+                        if (currentIndex < description.length) {
+                            cardText.textContent = description.substring(0, currentIndex + 1);
+                            currentIndex++;
+                            setTimeout(typeNextChar, 50);
+                        }
+                    }
+                    typeNextChar();
+                }, 300);
+            }
+        });
+    });
+});
+
+// previously there were hover effects emitting symbols around Spotify and LinkedIn logos
+// those animations have been removed per latest design direction so these handlers are intentionally absent.
 
