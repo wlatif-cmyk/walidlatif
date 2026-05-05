@@ -3,75 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Journey to Engineering - Walid Latif</title>
+    <title>@yappingaddiction - Walid Latif</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .instagram-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .instagram-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 36px;
+            text-decoration: none;
+            color: inherit;
+            padding: 60px;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .instagram-link:hover {
+            transform: scale(1.03);
+        }
+
+        /* graphic container */
+        .ig-graphic {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* orbiting rings */
+        .ig-orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transform-origin: center;
+        }
+
+        .ig-orbit-1 {
+            width: 240px;
+            height: 240px;
+            margin-top: -120px;
+            margin-left: -120px;
+            border-color: rgba(255, 255, 255, 0.09);
+            animation: igOrbit 18s linear infinite;
+        }
+
+        .ig-orbit-2 {
+            width: 320px;
+            height: 320px;
+            margin-top: -160px;
+            margin-left: -160px;
+            border-color: rgba(255, 255, 255, 0.06);
+            animation: igOrbit 28s linear infinite reverse;
+        }
+
+        .ig-orbit-3 {
+            width: 420px;
+            height: 420px;
+            margin-top: -210px;
+            margin-left: -210px;
+            border-color: rgba(255, 255, 255, 0.04);
+            animation: igOrbit 40s linear infinite;
+        }
+
+        /* dot riding each orbit */
+        .ig-orbit::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5), 0 0 16px rgba(255, 255, 255, 0.2);
+            top: -2.5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .ig-orbit-2::after {
+            width: 4px;
+            height: 4px;
+            top: auto;
+            bottom: -2px;
+            left: auto;
+            right: 20%;
+            transform: none;
+            opacity: 0.5;
+        }
+
+        .ig-orbit-3::after {
+            width: 3px;
+            height: 3px;
+            top: auto;
+            bottom: auto;
+            left: 15%;
+            top: 10%;
+            transform: none;
+            opacity: 0.35;
+        }
+
+        @keyframes igOrbit {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        /* instagram icon */
+        .ig-icon {
+            width: 100px;
+            height: 100px;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            z-index: 2;
+            filter:
+                drop-shadow(0 0 12px rgba(255, 255, 255, 0.25))
+                drop-shadow(0 0 32px rgba(255, 255, 255, 0.1));
+            transition: filter 0.4s ease;
+            animation: igBreath 6s ease-in-out infinite;
+        }
+
+        .instagram-link:hover .ig-icon {
+            filter:
+                drop-shadow(0 0 20px rgba(255, 255, 255, 0.45))
+                drop-shadow(0 0 50px rgba(255, 255, 255, 0.2));
+        }
+
+        @keyframes igBreath {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50%       { transform: scale(1.04); opacity: 1; }
+        }
+
+        /* text */
+        .ig-handle {
+            font-size: 52px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(255, 255, 255, 0.75) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.15));
+            line-height: 1;
+        }
+
+        .ig-cta {
+            font-size: 13px;
+            color: var(--apple-text-secondary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            opacity: 0.45;
+            font-weight: 400;
+        }
+
+        @media (max-width: 600px) {
+            .ig-handle { font-size: 34px; }
+            .ig-icon   { width: 72px; height: 72px; }
+            .ig-orbit-1 { width: 180px; height: 180px; margin-top: -90px; margin-left: -90px; }
+            .ig-orbit-2 { width: 240px; height: 240px; margin-top: -120px; margin-left: -120px; }
+            .ig-orbit-3 { width: 300px; height: 300px; margin-top: -150px; margin-left: -150px; }
+        }
+    </style>
 </head>
 <body>
-    <!-- credit -->
     <div class="credit-text">Created and designed by Walid Latif, 2025</div>
-    
-    <!-- back navigation -->
+
     <div class="back-nav">
-        <a href="index.html" class="back-link">← Back to Home</a>
+        <a href="index.html" class="back-link">← Back</a>
     </div>
 
-    <!-- journey section -->
-    <section class="full-section" id="journey">
-        <div class="section-content">
-            <p class="journey-greeting">hi, glad you made it here!</p>
-            <h1 class="section-heading">my journey so far</h1>
-            <p class="click-instruction">click on the pictures</p>
-            <div class="journey-timeline">
-                <!-- connecting lines -->
-                <svg class="journey-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <path class="journey-line" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+    <main class="instagram-page">
+        <a href="https://www.instagram.com/yappingaddiction" target="_blank" rel="noopener" class="instagram-link">
+            <div class="ig-graphic">
+                <div class="ig-orbit ig-orbit-1"></div>
+                <div class="ig-orbit ig-orbit-2"></div>
+                <div class="ig-orbit ig-orbit-3"></div>
+                <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5.5" ry="5.5"/>
+                    <circle cx="12" cy="12" r="4.5"/>
+                    <circle cx="17.6" cy="6.4" r="0.6" fill="currentColor" stroke="none"/>
                 </svg>
-                
-                <div class="journey-item journey-item-1">
-                    <div class="journey-card">
-                        <div class="journey-card-front">
-                            <img src="assets/journey-arduino.jpg" alt="Arduino laptop photo" class="journey-photo">
-                        </div>
-                        <div class="journey-card-back">
-                            <p class="journey-card-text"></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="journey-item journey-item-2">
-                    <div class="journey-card">
-                        <div class="journey-card-front">
-                            <img src="assets/journey-baby.jpg" alt="Baby photo" class="journey-photo">
-                        </div>
-                        <div class="journey-card-back">
-                            <p class="journey-card-text"></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="journey-item journey-item-3">
-                    <div class="journey-card">
-                        <div class="journey-card-front">
-                            <img src="assets/journey-basketball.jpg" alt="Basketball photo" class="journey-photo">
-                        </div>
-                        <div class="journey-card-back">
-                            <p class="journey-card-text"></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="journey-item journey-item-4">
-                    <div class="journey-card">
-                        <div class="journey-card-front">
-                            <img src="assets/journey-deca.jpg" alt="DECA folder photo" class="journey-photo">
-                        </div>
-                        <div class="journey-card-back">
-                            <p class="journey-card-text"></p>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
-    </section>
+            <span class="ig-handle">@yappingaddiction</span>
+            <span class="ig-cta">view on instagram</span>
+        </a>
+    </main>
 
     <script src="script.js"></script>
 </body>
 </html>
-
