@@ -54,7 +54,7 @@
                         <h3 class="project-title-large">Haptic Based Fitness Watch</h3>
                         <span class="project-badge-large">PCB Design</span>
                     </div>
-                    <p class="project-description-large">A simple PCB for a wrist-worn fitness watch that uses haptic feedback to alert the wearer.</p>
+                    <p class="project-description-large">A PCB for a wrist-worn fitness watch that uses haptic feedback to alert the wearer.</p>
                     <div class="files-section-large">
                         <a href="https://github.com/wlatif-cmyk/pcbs/tree/main/wristwearablepcb" class="resume-link" target="_blank" rel="noopener">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 8px;">
@@ -105,9 +105,9 @@
                         <div class="experience-node-line"></div>
                     </div>
                     <div class="experience-body">
-                        <span class="experience-org">ELIXIR Labs · TMU <span class="experience-period">Feb 2026 – May 2026</span></span>
+                        <span class="experience-org">TMU <span class="experience-period">Feb 2026 – May 2026</span></span>
                         <h3 class="experience-role">Undergraduate Research Assistant</h3>
-                        <p class="experience-desc">Working on soft robotics research with a focus on custom PCBs and embedded systems for next-generation soft robotic platforms.</p>
+                        <p class="experience-desc">Worked on soft robotics research at the ELIXIR lab with a focus on custom PCBs and embedded systems for next-generation soft robotic platforms.</p>
                     </div>
                 </div>
                 <div class="experience-entry">
@@ -121,6 +121,43 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- contact section -->
+    <section class="full-section" id="contact">
+        <div class="section-content">
+            <h2 class="section-heading">Get in Touch</h2>
+            <form class="contact-form" id="contactForm" novalidate>
+                <div class="contact-form-row">
+                    <div class="contact-form-group">
+                        <label class="contact-form-label">Name</label>
+                        <input type="text" class="contact-form-input" placeholder="Your name" name="name" required>
+                    </div>
+                    <div class="contact-form-group">
+                        <label class="contact-form-label">Email</label>
+                        <input type="email" class="contact-form-input" placeholder="your.email@example.com" name="email" required>
+                    </div>
+                </div>
+                <div class="contact-form-group">
+                    <label class="contact-form-label">Subject</label>
+                    <input type="text" class="contact-form-input" placeholder="What's this about?" name="subject">
+                </div>
+                <div class="contact-form-group">
+                    <label class="contact-form-label">Message</label>
+                    <textarea class="contact-form-textarea" placeholder="Tell me about your project or just say hello!" name="message" required></textarea>
+                </div>
+                <div class="contact-form-footer">
+                    <button type="submit" class="contact-form-submit" id="contactSubmit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                        Send Message
+                    </button>
+                    <p class="contact-form-status" id="contactStatus"></p>
+                </div>
+            </form>
         </div>
     </section>
 

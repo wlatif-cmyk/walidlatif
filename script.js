@@ -195,6 +195,46 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 10);
     });
     
+    // contact form submission
+    const contactForm = document.getElementById('contactForm');
+    const contactStatus = document.getElementById('contactStatus');
+    const contactSubmit = document.getElementById('contactSubmit');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            contactSubmit.disabled = true;
+            contactSubmit.innerHTML = 'Sending...';
+            contactStatus.textContent = '';
+
+            const payload = {
+                name: contactForm.querySelector('[name="name"]').value,
+                email: contactForm.querySelector('[name="email"]').value,
+                subject: contactForm.querySelector('[name="subject"]').value,
+                message: contactForm.querySelector('[name="message"]').value
+            };
+
+            try {
+                const res = await fetch('https://formsubmit.co/ajax/walidahmadlatif@gmail.com', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    contactStatus.textContent = 'Message sent — talk soon.';
+                    contactForm.reset();
+                } else {
+                    contactStatus.textContent = 'Something went wrong. Try emailing directly.';
+                }
+            } catch {
+                contactStatus.textContent = 'Something went wrong. Try emailing directly.';
+            }
+
+            contactSubmit.disabled = false;
+            contactSubmit.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> Send Message`;
+        });
+    }
+
     // ensure about section heading is correct
     const aboutHeading = document.querySelector('#about .about-text-container .section-heading');
     if (aboutHeading && aboutHeading.textContent.trim() !== 'Who am I?') {
