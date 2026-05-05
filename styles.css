@@ -1019,8 +1019,8 @@ body.scrolled .planets-legend.hero-legend {
     width: 11px;
     height: 11px;
     border-radius: 50%;
-    background: #30D158;
-    box-shadow: 0 0 6px #30D158, 0 0 14px rgba(48, 209, 88, 0.35);
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.5), 0 0 14px rgba(255, 255, 255, 0.2);
     flex-shrink: 0;
     position: relative;
     z-index: 2;
@@ -1030,7 +1030,7 @@ body.scrolled .planets-legend.hero-legend {
     width: 1px;
     flex: 1;
     min-height: 72px;
-    background: linear-gradient(to bottom, rgba(48, 209, 88, 0.25), transparent);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), transparent);
     margin-top: 8px;
 }
 
@@ -1042,12 +1042,19 @@ body.scrolled .planets-legend.hero-legend {
 .experience-org {
     display: block;
     font-size: 13px;
-    color: #30D158;
+    color: var(--apple-text-secondary);
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    opacity: 0.75;
+    opacity: 0.6;
     margin-bottom: 10px;
+}
+
+.experience-period {
+    opacity: 0.5;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    margin-left: 10px;
 }
 
 .experience-role {
