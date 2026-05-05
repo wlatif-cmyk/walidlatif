@@ -416,14 +416,17 @@ document.addEventListener('DOMContentLoaded', function() {
         cursor.style.top  = cursorY + 'px';
 
         // update curved trail path
+        // replace the last raw point with the lerped cursor position
+        // so the trail tip always lands exactly on the cursor dot
         if (trailPoints.length >= 2) {
+            const renderPoints = [...trailPoints.slice(0, -1), { x: cursorX, y: cursorY }];
             const smoothedPoints = [];
-            for (let i = 0; i < trailPoints.length; i++) {
+            for (let i = 0; i < renderPoints.length; i++) {
                 if (i === 0) {
-                    smoothedPoints.push(trailPoints[i]);
+                    smoothedPoints.push(renderPoints[i]);
                 } else {
-                    const prev = smoothedPoints[smoothedPoints.length - 1];
-                    const current = trailPoints[i];
+                    const prev    = smoothedPoints[smoothedPoints.length - 1];
+                    const current = renderPoints[i];
                     smoothedPoints.push({
                         x: prev.x + (current.x - prev.x) * 0.2,
                         y: prev.y + (current.y - prev.y) * 0.2
