@@ -299,6 +299,7 @@ document.addEventListener('DOMContentLoaded', function() {
     cursor.style.opacity = '1';
     cursor.style.left = '0px';
     cursor.style.top = '0px';
+    cursor.style.willChange = 'transform';
     document.body.appendChild(cursor);
     
     // create svg for curved trail
@@ -392,19 +393,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // smooth animation loop
-    function animateCursor() {
-        // smooth interpolation for cursor position
-        cursorX += (mouseX - cursorX) * 0.25;
-        cursorY += (mouseY - cursorY) * 0.25;
-        
-        // update cursor position
-        cursor.style.left = cursorX + 'px';
-        cursor.style.top = cursorY + 'px';
-        
+    // frame-rate independent exponential lerp
+    // lambda values tuned so smoothing feels identical at 60, 120, 144 Hz
+    const CURSOR_LAMBDA = 18; // ~matches old 0.25/frame feel at 60fps
+    const FOG_LAMBDA    = 7;  // ~matches old 0.1/frame feel at 60fps
+
+    let lastTimestamp = null;
+
+    function animateCursor(timestamp) {
+        // clamp dt to avoid huge jumps after tab switch
+        const dt = lastTimestamp ? Math.min((timestamp - lastTimestamp) * 0.001, 0.05) : 0.016;
+        lastTimestamp = timestamp;
+
+        // frame-rate independent lerp: alpha = 1 - e^(-lambda * dt)
+        const cursorAlpha = 1 - Math.exp(-CURSOR_LAMBDA * dt);
+        const fogAlpha    = 1 - Math.exp(-FOG_LAMBDA    * dt);
+
+        cursorX += (mouseX - cursorX) * cursorAlpha;
+        cursorY += (mouseY - cursorY) * cursorAlpha;
+
+        // GPU-composited transform — no layout recalculation
+        cursor.style.transform = `translate3d(${cursorX}px,${cursorY}px,0)`;
+
         // update curved trail path
         if (trailPoints.length >= 2) {
-            // smooth the trail points
             const smoothedPoints = [];
             for (let i = 0; i < trailPoints.length; i++) {
                 if (i === 0) {
@@ -418,47 +430,40 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
             }
-            
-            // create smooth curved path using cubic bezier curves
+
             let pathData = `M ${smoothedPoints[0].x} ${smoothedPoints[0].y}`;
-            
             if (smoothedPoints.length === 2) {
                 pathData += ` L ${smoothedPoints[1].x} ${smoothedPoints[1].y}`;
-            } else if (smoothedPoints.length > 2) {
+            } else {
                 for (let i = 1; i < smoothedPoints.length; i++) {
-                    const prev = smoothedPoints[i - 1];
+                    const prev    = smoothedPoints[i - 1];
                     const current = smoothedPoints[i];
-                    const next = smoothedPoints[i + 1] || current;
-                    
+                    const next    = smoothedPoints[i + 1] || current;
                     const tension = 0.3;
-                    const cp1x = prev.x + (current.x - prev.x) * (1 - tension);
-                    const cp1y = prev.y + (current.y - prev.y) * (1 - tension);
-                    const cp2x = current.x - (next.x - current.x) * tension;
-                    const cp2y = current.y - (next.y - current.y) * tension;
-                    
+                    const cp1x = prev.x    + (current.x - prev.x)    * (1 - tension);
+                    const cp1y = prev.y    + (current.y - prev.y)    * (1 - tension);
+                    const cp2x = current.x - (next.x    - current.x) * tension;
+                    const cp2y = current.y - (next.y    - current.y) * tension;
                     pathData += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${current.x} ${current.y}`;
                 }
             }
-            
             path.setAttribute('d', pathData);
             path.setAttribute('stroke', 'url(#trailGradient)');
         }
-        
-        // smooth interpolation for fog
-        fogX += (mouseX - fogX) * 0.1;
-        fogY += (mouseY - fogY) * 0.1;
-        fog.style.left = fogX + 'px';
-        fog.style.top = fogY + 'px';
-        
+
+        fogX += (mouseX - fogX) * fogAlpha;
+        fogY += (mouseY - fogY) * fogAlpha;
+        // center the 400px fog element on the target point
+        fog.style.transform = `translate3d(${fogX - 200}px,${fogY - 200}px,0)`;
+
         requestAnimationFrame(animateCursor);
     }
-    
-    // initialize cursor position
-    cursor.style.left = cursorX + 'px';
-    cursor.style.top = cursorY + 'px';
-    
-    // start animation
-    animateCursor();
+
+    // initialize with transform
+    cursor.style.transform = `translate3d(${cursorX}px,${cursorY}px,0)`;
+    fog.style.transform    = `translate3d(${fogX - 200}px,${fogY - 200}px,0)`;
+
+    requestAnimationFrame(animateCursor);
     
     // hide/show cursor on mouse leave/enter
     window.addEventListener('mouseleave', () => {

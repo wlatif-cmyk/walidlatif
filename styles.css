@@ -137,17 +137,17 @@ body {
     height: 4px;
     background: #FFFFFF;
     border-radius: 50%;
-    box-shadow: 
+    box-shadow:
         0 0 8px #FFFFFF,
         0 0 16px rgba(255, 255, 255, 0.8),
         0 0 24px rgba(255, 255, 255, 0.6);
     pointer-events: none;
     z-index: 99999;
-    transform-origin: center center;
     opacity: 1 !important;
     transition: opacity 0.2s ease;
     left: 0;
     top: 0;
+    will-change: transform;
     display: block !important;
     visibility: visible !important;
 }
@@ -179,12 +179,11 @@ body {
     background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.015) 30%, transparent 70%);
     pointer-events: none;
     z-index: 1;
-    transform: translate(-50%, -50%);
-    transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
     filter: blur(90px);
     opacity: 0;
     left: 0;
     top: 0;
+    will-change: transform;
 }
 
 .cursor-fog.active {
