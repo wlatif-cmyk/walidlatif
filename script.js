@@ -299,7 +299,6 @@ document.addEventListener('DOMContentLoaded', function() {
     cursor.style.opacity = '1';
     cursor.style.left = '0px';
     cursor.style.top = '0px';
-    cursor.style.willChange = 'transform';
     document.body.appendChild(cursor);
     
     // create svg for curved trail
@@ -393,80 +392,73 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // frame-rate independent exponential lerp
-    // lambda values tuned so smoothing feels identical at 60, 120, 144 Hz
-    const CURSOR_LAMBDA = 18; // ~matches old 0.25/frame feel at 60fps
-    const FOG_LAMBDA    = 7;  // ~matches old 0.1/frame feel at 60fps
-
-    let lastTimestamp = null;
-
-    function animateCursor(timestamp) {
-        // clamp dt to avoid huge jumps after tab switch
-        const dt = lastTimestamp ? Math.min((timestamp - lastTimestamp) * 0.001, 0.05) : 0.016;
-        lastTimestamp = timestamp;
-
-        // frame-rate independent lerp: alpha = 1 - e^(-lambda * dt)
-        const cursorAlpha = 1 - Math.exp(-CURSOR_LAMBDA * dt);
-        const fogAlpha    = 1 - Math.exp(-FOG_LAMBDA    * dt);
-
-        cursorX += (mouseX - cursorX) * cursorAlpha;
-        cursorY += (mouseY - cursorY) * cursorAlpha;
-
+    // smooth animation loop
+    function animateCursor() {
+        // smooth interpolation for cursor position
+        cursorX += (mouseX - cursorX) * 0.25;
+        cursorY += (mouseY - cursorY) * 0.25;
+        
+        // update cursor position
         cursor.style.left = cursorX + 'px';
-        cursor.style.top  = cursorY + 'px';
-
+        cursor.style.top = cursorY + 'px';
+        
         // update curved trail path
-        // replace the last raw point with the lerped cursor position
-        // so the trail tip always lands exactly on the cursor dot
         if (trailPoints.length >= 2) {
-            const renderPoints = [...trailPoints.slice(0, -1), { x: cursorX, y: cursorY }];
+            // smooth the trail points
             const smoothedPoints = [];
-            for (let i = 0; i < renderPoints.length; i++) {
+            for (let i = 0; i < trailPoints.length; i++) {
                 if (i === 0) {
-                    smoothedPoints.push(renderPoints[i]);
+                    smoothedPoints.push(trailPoints[i]);
                 } else {
-                    const prev    = smoothedPoints[smoothedPoints.length - 1];
-                    const current = renderPoints[i];
+                    const prev = smoothedPoints[smoothedPoints.length - 1];
+                    const current = trailPoints[i];
                     smoothedPoints.push({
                         x: prev.x + (current.x - prev.x) * 0.2,
                         y: prev.y + (current.y - prev.y) * 0.2
                     });
                 }
             }
-
+            
+            // create smooth curved path using cubic bezier curves
             let pathData = `M ${smoothedPoints[0].x} ${smoothedPoints[0].y}`;
+            
             if (smoothedPoints.length === 2) {
                 pathData += ` L ${smoothedPoints[1].x} ${smoothedPoints[1].y}`;
-            } else {
+            } else if (smoothedPoints.length > 2) {
                 for (let i = 1; i < smoothedPoints.length; i++) {
-                    const prev    = smoothedPoints[i - 1];
+                    const prev = smoothedPoints[i - 1];
                     const current = smoothedPoints[i];
-                    const next    = smoothedPoints[i + 1] || current;
+                    const next = smoothedPoints[i + 1] || current;
+                    
                     const tension = 0.3;
-                    const cp1x = prev.x    + (current.x - prev.x)    * (1 - tension);
-                    const cp1y = prev.y    + (current.y - prev.y)    * (1 - tension);
-                    const cp2x = current.x - (next.x    - current.x) * tension;
-                    const cp2y = current.y - (next.y    - current.y) * tension;
+                    const cp1x = prev.x + (current.x - prev.x) * (1 - tension);
+                    const cp1y = prev.y + (current.y - prev.y) * (1 - tension);
+                    const cp2x = current.x - (next.x - current.x) * tension;
+                    const cp2y = current.y - (next.y - current.y) * tension;
+                    
                     pathData += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${current.x} ${current.y}`;
                 }
             }
+            
             path.setAttribute('d', pathData);
             path.setAttribute('stroke', 'url(#trailGradient)');
         }
-
-        fogX += (mouseX - fogX) * fogAlpha;
-        fogY += (mouseY - fogY) * fogAlpha;
+        
+        // smooth interpolation for fog
+        fogX += (mouseX - fogX) * 0.1;
+        fogY += (mouseY - fogY) * 0.1;
         fog.style.left = fogX + 'px';
-        fog.style.top  = fogY + 'px';
-
+        fog.style.top = fogY + 'px';
+        
         requestAnimationFrame(animateCursor);
     }
-
+    
     // initialize cursor position
     cursor.style.left = cursorX + 'px';
-    cursor.style.top  = cursorY + 'px';
-
-    requestAnimationFrame(animateCursor);
+    cursor.style.top = cursorY + 'px';
+    
+    // start animation
+    animateCursor();
     
     // hide/show cursor on mouse leave/enter
     window.addEventListener('mouseleave', () => {
@@ -821,4 +813,186 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // previously there were hover effects emitting symbols around Spotify and LinkedIn logos
 // those animations have been removed per latest design direction so these handlers are intentionally absent.
+
+// planet easter egg: occasionally a planet falls off screen and returns in a funny way
+document.addEventListener('DOMContentLoaded', function() {
+    let eggActive = false;
+
+    function triggerPlanetEasterEgg() {
+        if (eggActive) { schedulePlanetEasterEgg(); return; }
+        if (window.scrollY > window.innerHeight * 0.4) { schedulePlanetEasterEgg(); return; }
+
+        const planets = Array.from(document.querySelectorAll('.planet'));
+        if (!planets.length) return;
+
+        const planet = planets[Math.floor(Math.random() * planets.length)];
+        const core = planet.querySelector('.planet-core');
+        if (!core) return;
+
+        eggActive = true;
+
+        const rect = core.getBoundingClientRect();
+        const color = planet.style.getPropertyValue('--planet-color').trim() || '#ffffff';
+        const size = Math.max(rect.width, 20);
+        const startX = rect.left + rect.width / 2 - size / 2;
+        const startY = rect.top + rect.height / 2 - size / 2;
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+
+        const actor = document.createElement('div');
+        actor.style.cssText = `
+            position: fixed;
+            width: ${size}px;
+            height: ${size}px;
+            border-radius: 50%;
+            background: ${color};
+            box-shadow: 0 0 20px ${color}, 0 0 40px ${color}44;
+            left: ${startX}px;
+            top: ${startY}px;
+            z-index: 99997;
+            pointer-events: none;
+            transform-origin: center center;
+        `;
+        document.body.appendChild(actor);
+        core.style.opacity = '0';
+
+        const driftX = (Math.random() - 0.5) * 160;
+        const fallDist = vh - startY + size + 60;
+
+        const fallAnim = actor.animate([
+            { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+            { transform: `translate(${driftX * 0.4}px,${fallDist * 0.5}px) rotate(200deg)`, opacity: 1, offset: 0.5 },
+            { transform: `translate(${driftX}px,${fallDist}px) rotate(720deg)`, opacity: 0.7 }
+        ], { duration: 1300, easing: 'cubic-bezier(0.55,0,1,0.45)', fill: 'forwards' });
+
+        fallAnim.finished.then(() => {
+            fallAnim.cancel();
+            const returnType = Math.floor(Math.random() * 4);
+            doReturn(actor, core, returnType, startX, startY, size, color, vw, vh);
+        });
+    }
+
+    function doReturn(actor, core, type, finalX, finalY, size, color, vw, vh) {
+        actor.style.opacity = '1';
+        let anim;
+
+        if (type === 0) {
+            // ROCKET: blasts up from below with overshoot
+            actor.style.left = finalX + 'px';
+            actor.style.top = (vh + size + 10) + 'px';
+            const travel = vh + size + 10 - finalY;
+            const overshoot = travel + size * 2.5;
+
+            const rocketEmoji = document.createElement('div');
+            rocketEmoji.textContent = '🚀';
+            rocketEmoji.style.cssText = `
+                position: fixed;
+                font-size: ${Math.max(size * 0.85, 16)}px;
+                left: ${finalX + size * 0.05}px;
+                top: ${vh + size + 10 + size * 1.2}px;
+                z-index: 99996;
+                pointer-events: none;
+                line-height: 1;
+            `;
+            document.body.appendChild(rocketEmoji);
+            rocketEmoji.animate([
+                { transform: 'translateY(0)', opacity: 1 },
+                { transform: `translateY(-${overshoot}px)`, opacity: 1, offset: 0.65 },
+                { transform: `translateY(-${travel}px)`, opacity: 0 }
+            ], { duration: 1400, easing: 'ease-in-out', fill: 'forwards' }).finished.then(() => rocketEmoji.remove());
+
+            anim = actor.animate([
+                { transform: 'translateY(0) scale(1)' },
+                { transform: `translateY(-${overshoot}px) scale(1.2)`, offset: 0.65 },
+                { transform: `translateY(-${travel}px) scale(1)` }
+            ], { duration: 1400, easing: 'ease-in-out', fill: 'forwards' });
+
+        } else if (type === 1) {
+            // BOUNCE: squash & bounce up from the floor
+            actor.style.left = finalX + 'px';
+            actor.style.top = (vh - size * 0.5) + 'px';
+            const travel = vh - size * 0.5 - finalY;
+
+            anim = actor.animate([
+                { transform: 'scaleX(1.7) scaleY(0.35)', easing: 'ease-out' },
+                { transform: `translateY(-${travel * 0.55}px) scaleX(0.85) scaleY(1.15)`, offset: 0.28, easing: 'ease-in' },
+                { transform: `translateY(-${travel * 0.1}px) scaleX(1.4) scaleY(0.65)`, offset: 0.48, easing: 'ease-out' },
+                { transform: `translateY(-${travel * 0.82}px) scaleX(0.93) scaleY(1.07)`, offset: 0.68, easing: 'ease-in' },
+                { transform: `translateY(-${travel * 0.3}px) scaleX(1.15) scaleY(0.85)`, offset: 0.82, easing: 'ease-out' },
+                { transform: `translateY(-${travel}px) scaleX(1) scaleY(1)` }
+            ], { duration: 2000, fill: 'forwards' });
+
+        } else if (type === 2) {
+            // CLIMB: wobbles in from the left edge like hauling itself up
+            actor.style.left = (-size - 10) + 'px';
+            actor.style.top = (vh * 0.65) + 'px';
+            const travelX = finalX - (-size - 10);
+            const travelY = finalY - vh * 0.65;
+
+            const hands = document.createElement('div');
+            hands.textContent = '👋';
+            hands.style.cssText = `
+                position: fixed;
+                font-size: ${Math.max(size * 0.7, 14)}px;
+                left: ${-size * 0.5}px;
+                top: ${vh * 0.65 - size * 0.3}px;
+                z-index: 99996;
+                pointer-events: none;
+                line-height: 1;
+                transform-origin: bottom center;
+            `;
+            document.body.appendChild(hands);
+            hands.animate([
+                { transform: 'rotate(-20deg)' },
+                { transform: 'rotate(20deg)', offset: 0.5 },
+                { transform: 'rotate(-20deg)' }
+            ], { duration: 280, iterations: 7 }).finished.then(() => hands.remove());
+
+            anim = actor.animate([
+                { transform: 'translate(0,0) rotate(0deg)' },
+                { transform: `translate(${travelX * 0.2}px,${travelY * 0.3}px) rotate(-25deg)`, offset: 0.2 },
+                { transform: `translate(${travelX * 0.45}px,${travelY * 0.55}px) rotate(20deg)`, offset: 0.45 },
+                { transform: `translate(${travelX * 0.7}px,${travelY * 0.75}px) rotate(-15deg)`, offset: 0.7 },
+                { transform: `translate(${travelX}px,${travelY}px) rotate(0deg)` }
+            ], { duration: 1800, easing: 'ease-in-out', fill: 'forwards' });
+
+        } else {
+            // FLING: catapulted in a parabolic arc from off-screen corner
+            const fromRight = Math.random() > 0.5;
+            const startXFling = fromRight ? vw + size + 20 : -size - 20;
+            const startYFling = vh * 0.85;
+            actor.style.left = startXFling + 'px';
+            actor.style.top = startYFling + 'px';
+            const travelX = finalX - startXFling;
+            const travelY = finalY - startYFling;
+            const arc = -(Math.abs(travelX) * 0.5 + 80);
+            const spinDir = fromRight ? -1 : 1;
+
+            anim = actor.animate([
+                { transform: 'translate(0,0) rotate(0deg)' },
+                { transform: `translate(${travelX * 0.5}px,${travelY * 0.5 + arc}px) rotate(${spinDir * 360}deg)`, offset: 0.5 },
+                { transform: `translate(${travelX}px,${travelY}px) rotate(${spinDir * 720}deg)` }
+            ], { duration: 1500, easing: 'cubic-bezier(0.25,0.46,0.45,0.94)', fill: 'forwards' });
+        }
+
+        anim.finished.then(() => {
+            anim.cancel();
+            cleanup(actor, core);
+        });
+    }
+
+    function cleanup(actor, core) {
+        actor.remove();
+        core.style.opacity = '';
+        eggActive = false;
+        schedulePlanetEasterEgg();
+    }
+
+    function schedulePlanetEasterEgg() {
+        const delay = 30000 + Math.random() * 40000;
+        setTimeout(triggerPlanetEasterEgg, delay);
+    }
+
+    setTimeout(triggerPlanetEasterEgg, 20000);
+});
 
