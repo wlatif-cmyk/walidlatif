@@ -412,8 +412,8 @@ document.addEventListener('DOMContentLoaded', function() {
         cursorX += (mouseX - cursorX) * cursorAlpha;
         cursorY += (mouseY - cursorY) * cursorAlpha;
 
-        // GPU-composited transform — no layout recalculation
-        cursor.style.transform = `translate3d(${cursorX}px,${cursorY}px,0)`;
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top  = cursorY + 'px';
 
         // update curved trail path
         if (trailPoints.length >= 2) {
@@ -453,15 +453,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         fogX += (mouseX - fogX) * fogAlpha;
         fogY += (mouseY - fogY) * fogAlpha;
-        // center the 400px fog element on the target point
-        fog.style.transform = `translate3d(${fogX - 200}px,${fogY - 200}px,0)`;
+        fog.style.left = fogX + 'px';
+        fog.style.top  = fogY + 'px';
 
         requestAnimationFrame(animateCursor);
     }
 
-    // initialize with transform
-    cursor.style.transform = `translate3d(${cursorX}px,${cursorY}px,0)`;
-    fog.style.transform    = `translate3d(${fogX - 200}px,${fogY - 200}px,0)`;
+    // initialize cursor position
+    cursor.style.left = cursorX + 'px';
+    cursor.style.top  = cursorY + 'px';
 
     requestAnimationFrame(animateCursor);
     

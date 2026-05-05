@@ -179,11 +179,11 @@ body {
     background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.015) 30%, transparent 70%);
     pointer-events: none;
     z-index: 1;
+    transform: translate(-50%, -50%);
     filter: blur(90px);
     opacity: 0;
     left: 0;
     top: 0;
-    will-change: transform;
 }
 
 .cursor-fog.active {
