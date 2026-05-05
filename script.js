@@ -161,12 +161,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 100);
     });
 
-    // observe experience items
-    const experienceItems = document.querySelectorAll('.experience-item-large');
+    // observe experience entries
+    const experienceItems = document.querySelectorAll('.experience-entry');
     experienceItems.forEach((item, index) => {
         setTimeout(() => {
             observer.observe(item);
-        }, index * 100);
+        }, index * 150);
     });
 
     // observe certification items

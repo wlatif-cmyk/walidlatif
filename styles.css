@@ -987,85 +987,84 @@ body.scrolled .planets-legend.hero-legend {
 }
 
 /* experience section */
-.experience-container-large {
+.experience-timeline {
     display: flex;
-    flex-wrap: wrap;
-    gap: 32px;
-    align-items: stretch;
+    flex-direction: column;
+    padding-left: 8px;
 }
 
-.experience-item-large {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease, transform 0.3s ease;
-    padding: 24px 28px;
-    border-radius: 24px;
-    background: rgba(28, 28, 30, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(12px);
-    flex: 1 1 min(420px, 100%);
-    min-width: 260px;
-}
-
-.experience-item-large.visible {
-    opacity: 1;
-    transform: translateY(0);
-    animation: calmBreath 8s ease-in-out infinite;
-}
-
-.experience-item-large:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
-}
-
-.experience-header-large {
+.experience-entry {
     display: flex;
-    justify-content: space-between;
+    gap: 36px;
     align-items: flex-start;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-    gap: 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-.experience-title-large {
-    font-size: 48px;
+.experience-entry.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.experience-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    padding-top: 5px;
+}
+
+.experience-node-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #30D158;
+    box-shadow: 0 0 6px #30D158, 0 0 14px rgba(48, 209, 88, 0.35);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.experience-node-line {
+    width: 1px;
+    flex: 1;
+    min-height: 72px;
+    background: linear-gradient(to bottom, rgba(48, 209, 88, 0.25), transparent);
+    margin-top: 8px;
+}
+
+.experience-body {
+    padding-bottom: 60px;
+    flex: 1;
+}
+
+.experience-org {
+    display: block;
+    font-size: 13px;
+    color: #30D158;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 10px;
+}
+
+.experience-role {
+    font-size: 34px;
     font-weight: 600;
     color: var(--apple-text-primary);
-    margin: 0;
+    margin: 0 0 16px 0;
     letter-spacing: -0.01em;
-    line-height: 1.1;
+    line-height: 1.15;
 }
 
-.experience-period-large {
-    background: transparent;
+.experience-desc {
+    font-size: 19px;
     color: var(--apple-text-secondary);
-    padding: 6px 14px;
-    border-radius: 14px;
-    font-size: 15px;
-    font-weight: 500;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    opacity: 0.7;
-}
-
-.experience-period-large:hover {
-    opacity: 1;
-    color: var(--apple-text-primary);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-.experience-company-large {
-    font-size: 28px;
-    color: var(--apple-blue);
-    font-weight: 500;
-    margin-bottom: 16px;
-}
-
-.experience-description-large {
-    font-size: 24px;
-    color: var(--apple-text-secondary);
-    line-height: 1.5;
-    max-width: 900px;
+    line-height: 1.6;
+    max-width: 620px;
+    opacity: 0.8;
 }
 
 /* tech stack section */
@@ -1919,14 +1918,14 @@ body.scrolled .planets-legend.hero-legend {
 
     .project-title-large,
     .education-title-large,
-    .experience-title-large {
-        font-size: 36px;
+    .experience-role {
+        font-size: 28px;
     }
 
     .project-description-large,
-    .experience-description-large,
+    .experience-desc,
     .about-text-large {
-        font-size: 19px;
+        font-size: 17px;
     }
 
     .stat-value {
@@ -1993,7 +1992,7 @@ body.scrolled .planets-legend.hero-legend {
 
     .project-title-large,
     .education-title-large,
-    .experience-title-large {
-        font-size: 28px;
+    .experience-role {
+        font-size: 24px;
     }
 }
