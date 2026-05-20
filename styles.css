@@ -613,6 +613,16 @@ body.scrolled .planets-legend.hero-legend {
     animation: intenseBreath 3s ease-in-out infinite;
 }
 
+/* section subtitle (sits below section heading with a slight pull-up on desktop) */
+.section-subtitle {
+    font-size: 15px;
+    color: var(--apple-text-secondary);
+    opacity: 0.7;
+    margin-top: -60px;
+    margin-bottom: 60px;
+    font-weight: 400;
+}
+
 /* projects section */
 .projects-container {
     display: flex;
@@ -2052,6 +2062,12 @@ body.scrolled .planets-legend.hero-legend {
 
     /* hero section: reduce extra top padding */
     .hero-section { padding: 60px 20px; }
+
+    /* remove negative margin so subtitle doesn't overlap heading */
+    .section-subtitle {
+        margin-top: 0;
+        margin-bottom: 40px;
+    }
 }
 
 /* small phones */
