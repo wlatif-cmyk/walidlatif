@@ -823,8 +823,9 @@ body.scrolled .planets-legend.hero-legend {
     background: rgba(255, 69, 58, 0.2);
 }
 
-/* education section */
-#academics {
+/* experience sections */
+#academics,
+#school-experience {
     padding-bottom: 250px;
     min-height: auto;
 }
@@ -2045,8 +2046,8 @@ body.scrolled .planets-legend.hero-legend {
     /* tighter experience timeline gap */
     .experience-entry { gap: 20px; }
 
-    /* reduce excessive bottom padding on experience section */
-    #academics { padding-bottom: 80px; }
+    /* reduce excessive bottom padding on experience sections */
+    #academics, #school-experience { padding-bottom: 80px; }
 
     /* contact items: match body text size */
     .contact-item-large { font-size: 17px; }
