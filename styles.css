@@ -2003,3 +2003,86 @@ body.scrolled .planets-legend.hero-legend {
         font-size: 24px;
     }
 }
+
+/* ─── mobile optimizations ─── */
+
+/* touch devices: restore cursor, hide JS cursor elements */
+@media (hover: none) and (pointer: coarse) {
+    * { cursor: auto !important; }
+    body { cursor: auto !important; }
+    .shooting-star-cursor,
+    .cursor-fog { display: none !important; }
+}
+
+/* tablet / small screens */
+@media (max-width: 768px) {
+    /* scale planet orbits down to fit narrower screens */
+    .planet:nth-child(1) { --radius: 130; }
+    .planet:nth-child(2) { --radius: 150; }
+    .planet:nth-child(3) { --radius: 170; }
+
+    .planet-core {
+        width: 36px;
+        height: 36px;
+    }
+
+    /* fix about-text-container overflow (min-width: 400px breaks on narrow screens) */
+    .about-text-container {
+        min-width: 0;
+        width: 100%;
+    }
+
+    /* tighter experience timeline gap */
+    .experience-entry { gap: 20px; }
+
+    /* reduce excessive bottom padding on experience section */
+    #academics { padding-bottom: 80px; }
+
+    /* contact items: match body text size */
+    .contact-item-large { font-size: 17px; }
+
+    /* stack project badge below title instead of beside it */
+    .project-header-large {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* constrain about photo height on mobile */
+    .photo-label-large { height: 260px; }
+
+    /* hero section: reduce extra top padding */
+    .hero-section { padding: 60px 20px; }
+}
+
+/* small phones */
+@media (max-width: 480px) {
+    /* even smaller planet orbits for very narrow screens */
+    .planet:nth-child(1) { --radius: 100; }
+    .planet:nth-child(2) { --radius: 115; }
+    .planet:nth-child(3) { --radius: 130; }
+
+    .planet-core {
+        width: 26px;
+        height: 26px;
+    }
+
+    /* tighter about section spacing */
+    .about-text-large { margin-bottom: 32px; }
+    .contact-container-large { margin-top: 36px; padding-top: 36px; }
+
+    /* tighter project gap */
+    .projects-container { gap: 60px; }
+
+    /* experience: slightly smaller text */
+    .experience-role { font-size: 22px; }
+    .experience-desc { font-size: 15px; }
+
+    /* about photo: shorter on very small screens */
+    .photo-label-large { height: 220px; }
+
+    /* journey link: smaller text */
+    .journey-star-text { font-size: 15px; }
+
+    /* contact items: small phone size */
+    .contact-item-large { font-size: 15px; }
+}
